@@ -19,11 +19,18 @@ body {
 }
 
 /* Input and Button Styles */
+.input-group {
+  display: flex; /* Use flexbox to align items */
+  align-items: center; /* Center items vertically */
+}
+
 input {
   padding: 10px; /* Padding inside input */
   margin-right: 10px; /* Space between input and button */
   font-size: 16px; /* Font size for input */
   border-radius: 4px; /* Rounded corners for input */
+  border: 1px solid #ccc; /* Light border for input */
+  flex: 1; /* Allow input to take remaining space */
 }
 
 button {
@@ -33,6 +40,7 @@ button {
   color: #282c34; /* Text color for button */
   font-size: 16px; /* Font size for button */
   cursor: pointer; /* Cursor changes to pointer on hover */
+  border-radius: 4px; /* Rounded corners for button */
 }
 
 button:hover {
@@ -44,7 +52,44 @@ h1 {
   margin-bottom: 20px; /* Space below main heading */
 }
 
+h2 {
+  margin-top: 30px; /* Space above the comparison section */
+  margin-bottom: 20px; /* Space below the comparison section */
+}
+
 /* Paragraphs */
 p {
   font-size: 18px; /* Font size for paragraphs */
+}
+
+/* Card Styles */
+.card {
+  border: none; /* No border for a cleaner look */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #ffffff; /* White background for cards */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  transition: transform 0.2s, box-shadow 0.2s; /* Transition for hover effects */
+  margin: 15px; /* Space between cards */
+}
+
+.card:hover {
+  transform: translateY(-2px); /* Lift effect on hover */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    margin: 10px; /* Less margin on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  input {
+    font-size: 14px; /* Smaller font size for mobile */
+  }
+
+  button {
+    font-size: 14px; /* Smaller font size for mobile */
+  }
 }

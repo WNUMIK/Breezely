@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
 from .services import get_current_weather, get_forecast
-from datetime import datetime
 
 api = Blueprint('api', __name__)
 
@@ -48,3 +47,4 @@ def weather():
         },
         'forecast': forecast_summary  # Always return an array
     })
+

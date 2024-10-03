@@ -72,3 +72,27 @@ body {
     width: 100%;              /* Full width on extra small screens */
   }
 }
+
+/* Styles for the list of cities */
+.list-group-item {
+  display: flex;
+  justify-content: space-between; /* Space between city name and button */
+  align-items: center; /* Center items vertically */
+}
+
+.input-group {
+  display: flex;
+  align-items: center; /* Center align items vertically */
+}
+
+.input-group input {
+  flex: 1; /* Allow input to take remaining space */
+}
+
+input {
+  padding: 10px; /* Padding inside input */
+}
+
+button {
+  margin-left: 10px; /* Space between input and button */
+}

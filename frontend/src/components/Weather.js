@@ -5,6 +5,7 @@ import 'chart.js/auto';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './css/Weather.css';  // Import your CSS file
 
+
 function Weather() {
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
