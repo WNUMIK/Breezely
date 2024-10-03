@@ -1,21 +1,20 @@
 import React from 'react';
 
-function CurrentWeatherCard({ weather }) {
+const CurrentWeatherCard = ({ weather }) => {
+  // Safeguard: check if weather data exists
+  if (!weather || !weather.temperature) {
+    return <p>Weather data is not available.</p>;
+  }
+
   return (
     <div className="row justify-content-center">
-      <div className="col-md-6">
-        <div className="card mb-4">
-          <div className="card-body">
-            <h3 className="card-title text-primary">Current Weather in {weather.city}</h3>
-            <p className="display-4">{weather.current_weather.temperature}°C</p>
-            <p className="text-muted">Description: {weather.current_weather.description}</p>
-            <p>Humidity: {weather.current_weather.humidity}%</p>
-            <p>Wind Speed: {weather.current_weather.wind_speed} m/s</p>
-          </div>
-        </div>
-      </div>
+      <h3 className="card-title text-primary">Current Weather in {weather.city}</h3>
+      <p className="display-4">{weather.temperature}°C</p>
+      <p className="text-muted">{weather.description}</p>
+      <p>Humidity: {weather.humidity}%</p>
+      <p>Wind Speed: {weather.wind_speed} m/s</p>
     </div>
   );
-}
+};
 
 export default CurrentWeatherCard;

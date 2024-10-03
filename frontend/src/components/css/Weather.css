@@ -1,98 +1,131 @@
-/* General styles */
-body {
-  background-color: #f0f4f8; /* Light background color for contrast */
-  font-family: 'Arial', sans-serif; /* Consistent font family */
-  margin: 0;
+/* Section Title */
+.section-title {
+  font-size: 28px; /* Larger for a more professional look */
+  color: #2E3B4E; /* Dark muted blue */
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600; /* Bold for emphasis */
+}
+
+/* Input and Button Section */
+.input-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.input-section input {
+  padding: 12px;
+  border-radius: 4px; /* Subtle rounded corners */
+  border: 1px solid #ccc;
+  font-size: 16px;
+  width: 300px;
+  margin-right: 10px; /* Space between input and button */
+  color: #333; /* Darker text for professionalism */
+}
+
+.input-section input:focus {
+  outline: none;
+  border-color: #4E8098; /* Teal accent on focus */
+}
+
+.input-section button {
+  padding: 12px 20px;
+  background-color: #4E8098; /* Bold teal */
+  color: white;
+  border: none;
+  border-radius: 4px; /* Subtle rounded corners */
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase; /* Professional, all caps */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-section button:hover {
+  background-color: #3A6C81; /* Darker teal on hover */
+}
+
+/* Weather Cards Section */
+.weather-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Weather Card */
+.weather-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  padding: 20px;
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.weather-card:hover {
+  transform: translateY(-3px); /* Slight lift on hover */
+}
+
+.weather-card h3 {
+  font-size: 22px;
+  color: #2E3B4E; /* Dark muted blue */
+}
+
+.weather-card .temperature {
+  font-size: 36px;
+  font-weight: 700;
+  color: #4E8098; /* Bold teal */
+}
+
+.weather-card .description {
+  font-size: 16px;
+  color: #555; /* Lighter gray for secondary info */
+}
+
+/* City List */
+.city-list {
+  list-style: none;
   padding: 0;
+  margin: 20px 0;
 }
 
-/* Container styles */
-.container {
-  max-width: 1200px; /* Maximum width for the container */
-  margin: auto; /* Center the container */
-  padding: 20px; /* Padding for the container */
+.city-list li {
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Card styles */
-.card {
-  border: none; /* No border for a cleaner look */
-  border-radius: 8px; /* Rounded corners */
-  background-color: #ffffff; /* White background for cards */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-  transition: transform 0.2s, box-shadow 0.2s; /* Transition for hover effects */
+/* Error Messages */
+.error {
+  color: red;
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
 }
 
-/* Hover effect on card */
-.card:hover {
-  transform: translateY(-2px); /* Lift effect on hover */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
-}
-
-/* Forecast card specific styles */
-.forecast-card {
-  margin: 10px; /* Space between cards */
-  padding: 15px; /* Padding inside the card */
-  width: calc(25% - 20px); /* Adjust width for grid layout */
-  overflow: hidden; /* Hide overflow */
-  display: flex; /* Flexbox layout */
-  flex-direction: column; /* Stack items vertically */
-  justify-content: center; /* Center content vertically */
-  text-align: center; /* Center text */
-}
-
-/* Flexbox layout for forecast cards in grid */
-.forecast-container {
-  display: flex;               /* Use flexbox for layout */
-  flex-wrap: wrap;            /* Allow cards to wrap */
-  justify-content: flex-start; /* Align cards to the left */
-}
-
-/* Typography adjustments */
-.forecast-card .card-title {
-  font-size: 1rem;            /* Font size for the title */
-  margin-bottom: 5px;         /* Space below the title */
-  color: #333;                /* Dark color for contrast */
-}
-
-.forecast-card .card-text {
-  font-size: 0.9rem;          /* Font size for other text */
-  color: #666;                /* Lighter color for less emphasis */
-  margin: 2px 0;             /* Margin for spacing between text lines */
-}
-
-/* Media query for responsive design */
+/* Responsiveness */
 @media (max-width: 768px) {
-  .forecast-card {
-    width: calc(50% - 20px);  /* 2 cards per row on smaller screens */
+  .input-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-section input, .input-section button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .weather-cards-container {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 480px) {
-  .forecast-card {
-    width: 100%;              /* Full width on extra small screens */
-  }
-}
-
-/* Styles for the list of cities */
-.list-group-item {
-  display: flex;
-  justify-content: space-between; /* Space between city name and button */
-  align-items: center; /* Center items vertically */
-}
-
-.input-group {
-  display: flex;
-  align-items: center; /* Center align items vertically */
-}
-
-.input-group input {
-  flex: 1; /* Allow input to take remaining space */
-}
-
-input {
-  padding: 10px; /* Padding inside input */
-}
-
-button {
-  margin-left: 10px; /* Space between input and button */
-}

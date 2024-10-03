@@ -1,95 +1,131 @@
-/* Global Styles */
+/* General Body Styling */
 body {
-  background-color: #e6f7ff; /* Light blue background for the app */
-  font-family: Arial, sans-serif; /* Consistent font family */
+  background-color: #F4F4F9; /* Neutral light background */
+  font-family: 'Roboto', sans-serif; /* Professional, clean font */
   margin: 0;
   padding: 0;
-  min-height: 100vh; /* Ensure it covers full height */
+  color: #333; /* Dark gray text for readability */
 }
 
-.App {
-  text-align: center; /* Center text for the entire app */
-}
-
-/* Header Styles */
+/* Header Styling */
 .App-header {
-  background-color: #282c34; /* Dark background for header */
-  padding: 20px; /* Padding around header */
-  color: white; /* White text in header */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #2E3B4E; /* Dark muted blue */
+  color: white;
 }
 
-/* Input and Button Styles */
-.input-group {
-  display: flex; /* Use flexbox to align items */
-  align-items: center; /* Center items vertically */
+.logo img {
+  height: 80px; /* Slightly smaller and sharper */
+  margin-right: 10px;
 }
 
-input {
-  padding: 10px; /* Padding inside input */
-  margin-right: 10px; /* Space between input and button */
-  font-size: 16px; /* Font size for input */
-  border-radius: 4px; /* Rounded corners for input */
-  border: 1px solid #ccc; /* Light border for input */
-  flex: 1; /* Allow input to take remaining space */
+h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
 }
 
+/* Footer */
+footer {
+  background-color: #2E3B4E;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Button Styling for all buttons */
 button {
-  padding: 10px; /* Padding inside button */
-  background-color: #61dafb; /* Button background color */
-  border: none; /* No border for button */
-  color: #282c34; /* Text color for button */
-  font-size: 16px; /* Font size for button */
-  cursor: pointer; /* Cursor changes to pointer on hover */
-  border-radius: 4px; /* Rounded corners for button */
+  padding: 10px 20px;
+  background-color: #4E8098; /* Bold teal */
+  color: white;
+  border: none;
+  border-radius: 4px; /* Subtle rounded corners */
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #21a1f1; /* Darker blue on hover */
+  background-color: #3A6C81; /* Darker version on hover */
 }
 
-/* Headings */
-h1 {
-  margin-bottom: 20px; /* Space below main heading */
+button:focus {
+  outline: none;
+  border: 2px solid #2E3B4E; /* Add a focus state */
 }
 
-h2 {
-  margin-top: 30px; /* Space above the comparison section */
-  margin-bottom: 20px; /* Space below the comparison section */
+/* View selection: Center the question and display buttons in a row */
+.view-selection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
 }
 
-/* Paragraphs */
-p {
-  font-size: 18px; /* Font size for paragraphs */
+.view-selection h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  color: #333; /* Darker gray for a more corporate feel */
+  margin-bottom: 30px;
 }
 
-/* Card Styles */
-.card {
-  border: none; /* No border for a cleaner look */
-  border-radius: 8px; /* Rounded corners */
-  background-color: #ffffff; /* White background for cards */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-  transition: transform 0.2s, box-shadow 0.2s; /* Transition for hover effects */
-  margin: 15px; /* Space between cards */
+.view-selection-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* Space between buttons */
+  margin-top: 20px;
 }
 
-.card:hover {
-  transform: translateY(-2px); /* Lift effect on hover */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+/* Card Styling */
+.weather-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px;
+  text-align: left;
+  margin: 20px 0;
+  transition: transform 0.3s ease;
 }
 
-/* Media Queries for Responsive Design */
+.weather-card:hover {
+  transform: translateY(-3px); /* Slight lift on hover */
+}
+
+.weather-card h3 {
+  font-size: 22px;
+  color: #2E3B4E; /* Dark muted blue for titles */
+}
+
+.weather-card .temperature {
+  font-size: 36px;
+  font-weight: 700;
+  color: #4E8098; /* Bold teal */
+}
+
+.weather-card .description {
+  font-size: 16px;
+  color: #555; /* Lighter gray for secondary info */
+}
+
+.container {
+  padding: 20px 60px; /* Centering content with some padding */
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .card {
-    margin: 10px; /* Less margin on smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  input {
-    font-size: 14px; /* Smaller font size for mobile */
+  .container {
+    padding: 20px 20px; /* Reduce padding on smaller screens */
   }
 
-  button {
-    font-size: 14px; /* Smaller font size for mobile */
+  .view-selection-buttons {
+    flex-direction: column; /* Stack buttons vertically on smaller screens */
+    gap: 15px; /* Reduce gap between buttons */
   }
 }

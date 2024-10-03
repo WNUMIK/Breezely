@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import WeatherCard from './CurrentWeatherCard'; // Import the card for each city's weather
-import './css/Weather.css';  // Import your CSS file
+import './css/Weather.css';  // Import the updated CSS for styling
 
 function WeatherComparison() {
-  const [cityInput, setCityInput] = useState(''); // Input for a single city
-  const [cities, setCities] = useState([]); // Array for city names
-  const [weatherData, setWeatherData] = useState([]); // Array for weather data
+  const [cityInput, setCityInput] = useState(''); // Input for adding a city
+  const [cities, setCities] = useState([]); // Array to hold city names
+  const [weatherData, setWeatherData] = useState([]); // Array to hold weather data for each city
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Fetch weather data for multiple cities
   const fetchWeatherData = async () => {
     if (cities.length === 0) {
-      setError('Please enter at least one city.');
+      setError('Please add at least one city.');
       return;
     }
 
@@ -34,6 +34,7 @@ function WeatherComparison() {
     }
   };
 
+  // Add a city to the list
   const handleAddCity = () => {
     if (cityInput.trim() && !cities.includes(cityInput.trim())) {
       setCities([...cities, cityInput.trim()]);
@@ -41,6 +42,7 @@ function WeatherComparison() {
     }
   };
 
+  // Remove a city from the list
   const handleRemoveCity = (index) => {
     const newCities = cities.filter((_, i) => i !== index);
     setCities(newCities);
@@ -48,66 +50,50 @@ function WeatherComparison() {
 
   return (
     <div className="container">
-      <h2 className="text-center my-4">Compare Weather in Multiple Cities</h2>
-      <div className="row justify-content-center mb-3">
-        <div className="col-md-4">
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter city"
-              value={cityInput}
-              onChange={(e) => setCityInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleAddCity()} // Add city on Enter
-            />
-            <button className="btn btn-secondary" onClick={handleAddCity}>
-              Add City
-            </button>
-          </div>
-        </div>
+      <h2 className="section-title">Compare Weather in Multiple Cities</h2>
+
+      {/* Input section to add cities */}
+      <div className="input-section">
+        <input
+          type="text"
+          placeholder="Enter city"
+          value={cityInput}
+          onChange={(e) => setCityInput(e.target.value)}
+        />
+        <button onClick={handleAddCity}>Add City</button>
       </div>
 
-      <div className="row justify-content-center">
-        <button className="btn btn-primary mb-3" onClick={fetchWeatherData}>
-          Get Weather
-        </button>
+      {/* Display list of added cities with a remove option */}
+      <ul className="city-list">
+        {cities.map((city, index) => (
+          <li key={index}>
+            {city}
+            <button onClick={() => handleRemoveCity(index)}>Remove</button>
+          </li>
+        ))}
+      </ul>
+
+      {/* Button to fetch weather data for added cities */}
+      <button className="get-weather" onClick={fetchWeatherData}>
+        Get Weather
+      </button>
+
+      {/* Show error message if any */}
+      {error && <p className="error">{error}</p>}
+
+      {/* Show loading spinner if fetching data */}
+      {loading && <p>Loading...</p>}
+
+      {/* Display weather data for each city in a grid layout */}
+      <div className="weather-cards-container">
+        {weatherData.map((weather, index) => (
+          <div className="weather-card" key={index}>
+            <h3>{weather.city}</h3>
+            <div className="temperature">{weather.current_weather.temperature}°C</div>
+            <div className="description">{weather.current_weather.description}</div>
+          </div>
+        ))}
       </div>
-
-      {loading && (
-        <div className="text-center">
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      )}
-
-      {error && <p className="text-center text-danger">{error}</p>}
-
-      {cities.length > 0 && (
-        <div className="row justify-content-center mb-3">
-          <div className="col-md-8">
-            <h4 className="text-center">Cities to Compare:</h4>
-            <ul className="list-group">
-              {cities.map((city, index) => (
-                <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
-                  {city}
-                  <button className="btn btn-danger btn-sm" onClick={() => handleRemoveCity(index)}>Remove</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
-
-      {weatherData.length > 0 && (
-        <div className="row justify-content-center">
-          {weatherData.map((weather, index) => (
-            <div className="col-md-4" key={index}>
-              <WeatherCard weather={weather} /> {/* Use WeatherCard component */}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
