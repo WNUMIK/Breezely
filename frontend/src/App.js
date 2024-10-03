@@ -6,7 +6,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Breezely - Weather App</h1>
         <Weather />
       </header>
     </div>
