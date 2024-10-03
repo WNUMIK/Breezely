@@ -7,13 +7,19 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 function WeatherChart({ weather }) {
   const generateChartData = () => {
+    if (!Array.isArray(weather.forecast)) {
+      return { labels: [], datasets: [] }; // Safeguard for non-array data
+    }
+
     const labels = weather.forecast.map((day) =>
       new Date(day.date).toLocaleDateString()
     );
 
     const temperatureData = weather.forecast.map((day) => day.temperature);
     const humidityData = weather.forecast.map((day) => day.humidity);
-    const precipitationData = weather.forecast.map((day) => day.precipitation);
+    const precipitationData = weather.forecast.map((day) =>
+      day.precipitation !== undefined ? day.precipitation : 0  // Default to 0 if precipitation is missing
+    );
 
     return {
       labels,

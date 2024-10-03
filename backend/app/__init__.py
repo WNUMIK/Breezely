@@ -1,16 +1,18 @@
 from flask import Flask
+from flask_cors import CORS
 from .config import Config
 from .routes import api
 
-
 def create_app():
-    """Create and configure the Flask app."""
     app = Flask(__name__)
 
-    # Load the configuration (API key, etc.)
+    # Load configuration
     app.config.from_object(Config)
 
-    # Register the routes defined in routes.py
+    # Enable CORS for all routes
+    CORS(app)
+
+    # Register API routes
     app.register_blueprint(api)
 
     return app
