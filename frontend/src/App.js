@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SingleCityWeather from './components/SingleCityWeather';
 import WeatherComparison from './components/WeatherComparison';
 import FeaturedCities from './components/FeaturedCities';
@@ -8,6 +8,19 @@ import './App.css'
 function App() {
     const [view, setView] = useState(null);
     const [city, setCity] = useState('');
+    const [geoLocationCity, setGeoLocationCity] = useState(null);
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const response = await fetch(`http://127.0.0.1:5000/api/geo?lat=${lat}&lon=${lon}`);
+                const data = await response.json();
+                setGeoLocationCity(data.city);
+            });
+        }
+    }, []);
 
     const handleViewChange = (viewType) => {
         setView(viewType);
@@ -39,6 +52,13 @@ function App() {
             <div className="container">
                 {!view && (
                     <>
+                        {geoLocationCity && (
+                            <div className="geolocation-weather">
+                                <h3>Current Weather in You ar Location ({geoLocationCity})</h3>
+                                <SingleCityWeather city={geoLocationCity} />
+                            </div>
+                        )}
+
                         <div className="search-bar">
                             <input
                                 type="text"
@@ -57,7 +77,7 @@ function App() {
                             </div>
                         </div>
 
-                        <FeaturedCities onCityClick={handleCityClick} /> {/* Handle featured city click */}
+                        <FeaturedCities onCityClick={handleCityClick} />
                         <FavoriteCities />
                     </>
                 )}
