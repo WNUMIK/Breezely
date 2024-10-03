@@ -1,127 +1,126 @@
 
-# Breezely: Web-Based Advanced Weather Application
+# Breezely Weather App
 
-**Breezely** is a web-based weather app built using Python and Flask. It provides real-time weather data, forecasts, historical weather trends, and air quality information for various locations. This project demonstrates proficiency in Python development, web frameworks, and API integration, while also showcasing version control and collaboration using GitHub.
+Breezely is a dynamic weather forecasting application built with a modern tech stack. It allows users to fetch weather details for a single city, compare the weather in multiple cities, and view featured popular cities' weather dynamically. Breezely is a demonstration of using React with Flask for a seamless frontend-backend integration.
 
 ## Features
 
-1. **Real-Time Weather & Forecast**
-   - Fetch current weather data for any city, including temperature, humidity, wind speed, and description.
-   - Display a 7-day weather forecast on the webpage.
-   - Provide severe weather alerts (e.g., storms, heatwaves).
+1. **Single City Weather**: 
+   - Users can input a city name and retrieve the current weather conditions, 5-day weather forecast, and a temperature trend chart.
+   - The weather details include temperature, weather description, humidity, and wind speed.
+   
+2. **Weather Comparison**: 
+   - Allows users to compare weather in multiple cities side by side.
+   - The comparison provides real-time weather data such as temperature, humidity, and description for each selected city.
 
-2. **Historical Weather Data and Trends**
-   - Visual representation of weather trends (temperature, humidity, and precipitation) over 7, 30, and 365 days.
-   - Interactive charts using Plotly or Chart.js.
+3. **Featured Cities**:
+   - Displays the current weather for popular cities (e.g., New York, Tokyo, Paris, etc.).
+   - This data is fetched dynamically from a weather API upon page load.
 
-3. **"Best Day" Feature**
-   - Allows users to pick an upcoming date and compare it to historical data to find the most suitable day for outdoor activities.
+4. **Interactive Chart**:
+   - The app features an interactive chart that shows temperature trends over five days for a selected city. The chart also includes humidity and precipitation.
 
-4. **Air Quality Index (AQI)**
-   - Fetch AQI data for any location and display it alongside health recommendations.
-   - Color-coded AQI indicators for better visualization (green = good, red = hazardous).
-
-5. **Personalized Recommendations**
-   - Based on weather data and air quality, the app provides contextual suggestions (e.g., "Great day for a run" or "Consider staying indoors due to poor air quality").
-
-6. **Global Weather Dashboard**
-   - Monitor weather conditions for multiple cities in a clean, interactive global dashboard.
-
-## Tech Stack
-
-- **Python 3.x**: Core language used for development.
-- **Flask**: Lightweight web framework used to build the web interface.
-- **Pipenv**: Used for dependency management and virtual environment.
-- **Requests**: Used for making API calls to OpenWeatherMap for weather and AQI data.
-- **Plotly/Matplotlib**: Libraries used for creating interactive data visualizations (weather trends).
-- **Bootstrap**: Used for responsive web design and user interface styling.
-
-## Project Structure
-
-```
-breezely/
-├── app.py               # Main Flask application
-├── Pipfile              # Pipenv dependency file
-├── Pipfile.lock         # Pipenv lock file (auto-generated)
-├── static/              # Static files (CSS, JS, images)
-│   ├── css/             # CSS files for styling
-│   └── js/              # JavaScript files for interactivity
-├── templates/           # HTML templates (home, about, dashboard, etc.)
-│   └── index.html       # Homepage template
-├── tests/               # Test cases for unit testing
-├── .gitignore           # Git ignore file (for excluding unnecessary files)
-└── .env                 # Environment variables (API keys, config)
-```
-
+5. **Responsive Design**:
+   - The application is mobile-friendly and adapts to different screen sizes.
+   
 ## Installation and Setup
+
+To set up and run this project locally, follow these steps:
+
+### Backend (Flask API)
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/breezely.git
-   cd breezely
+   git clone https://github.com/your-username/breezely.git
    ```
 
-2. **Create a virtual environment and install dependencies using Pipenv**:
+2. **Navigate to the backend directory**:
+   ```bash
+   cd backend
+   ```
+
+3. **Install dependencies**:
+   We are using `pipenv` to manage dependencies. Install them by running:
    ```bash
    pipenv install
    ```
 
-3. **Set up environment variables**:
-   - Create a `.env` file in the root directory:
-     ```bash
-     touch .env
-     ```
-   - Add your OpenWeatherMap API key:
-     ```
-     API_KEY=your_openweathermap_api_key
-     ```
+4. **Create a `.env` file** in the `backend/app` directory and add your API key for the weather API:
+   ```
+   API_KEY=your_openweather_api_key
+   ```
 
-4. **Run the application**:
+5. **Run the Flask app**:
    ```bash
-   pipenv run flask run
+   flask run
    ```
 
-5. **Open the app**:
-   Open `http://127.0.0.1:5000/` in your browser to view the Breezely app.
+### Frontend (React)
 
-## Deployment (Optional)
-
-To deploy Breezely to a cloud platform (e.g., Heroku), follow these steps:
-
-1. Install `gunicorn`:
+1. **Navigate to the frontend directory**:
    ```bash
-   pipenv install gunicorn
+   cd frontend
    ```
 
-2. Create a `Procfile` in the root directory:
-   ```
-   web: gunicorn app:app
-   ```
-
-3. Push the repository to your Heroku app:
+2. **Install dependencies**:
+   Run the following command to install the required Node.js packages:
    ```bash
-   git push heroku main
+   npm install
    ```
+
+3. **Start the React frontend**:
+   ```bash
+   npm start
+   ```
+
+## Project Structure
+
+```plaintext
+Breezely/
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   ├── routes.py
+│   │   ├── services.py
+│   │   └── .env
+│   ├── wsgi.py
+├── frontend/
+│   ├── public/
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo.png
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── css/
+│   │   │   ├── CurrentWeatherCard.js
+│   │   │   ├── ForecastCard.js
+│   │   │   ├── SingleCityWeather.js
+│   │   │   ├── WeatherChart.js
+│   │   │   ├── WeatherComparison.js
+│   │   │   ├── WeatherInput.js
+│   │   ├── App.js
+│   │   ├── App.css
+│   │   ├── index.js
+├── README.md
+```
+
+## Technologies Used
+
+- **Frontend**: React, Chart.js
+- **Backend**: Flask, Python
+- **API**: OpenWeatherMap API for weather data
+- **Styling**: CSS with responsiveness
+- **Data Fetching**: Axios (in React), requests (in Flask)
+- **Virtual Environment**: pipenv for Python, npm for Node
+
+## Future Improvements
+
+1. **User Authentication**: Add login functionality for users to save favorite cities or locations.
+2. **Advanced Weather Data**: Include more detailed weather information, such as sunrise/sunset times and UV index.
+3. **PWA**: Turn the app into a Progressive Web App (PWA) for offline functionality.
+4. **Geolocation**: Automatically detect user's location and show weather accordingly.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-## Contributing
-
-Feel free to contribute to Breezely by opening issues and submitting pull requests. To contribute:
-
-1. Fork the repository.
-2. Create a new branch for your feature:
-   ```bash
-   git checkout -b feature-branch-name
-   ```
-3. Make your changes and commit them:
-   ```bash
-   git commit -m "Add new feature"
-   ```
-4. Push the branch to your fork and submit a pull request.
-
-## Contact
-
-For any inquiries, please reach out at your-email@example.com or open an issue on GitHub.
+This project is licensed under the MIT License - see the LICENSE file for details.
