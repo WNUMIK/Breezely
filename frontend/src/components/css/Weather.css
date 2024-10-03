@@ -1,3 +1,12 @@
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
 /* Section Title */
 .section-title {
     font-size: 28px; /* Larger for a more professional look */
@@ -241,4 +250,35 @@
 
 .favorite-city-card button:hover {
     background-color: darkorange;
+}
+
+/* Spacing and Padding */
+.featured-cities, .favorite-cities {
+    margin: 40px 0; /* Space above and below city tiles */
+}
+
+h3 {
+    margin-bottom: 20px; /* Adds space below headings */
+}
+
+/* Footer Sticky at the Bottom */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer {
+    margin-top: auto; /* This makes the footer stick to the bottom */
+    background-color: #2E3B4E;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Hover Effect for City Tiles */
+.city-tile:hover, .favorite-city-card:hover {
+    transform: scale(1.05); /* A slight scale effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

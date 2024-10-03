@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
-import WeatherCard from './CurrentWeatherCard'; // Ensure you import the correct WeatherCard component
+import Lottie from 'react-lottie-player';
+import sunAnimation from './animations/sun.json';
+import rainAnimation from './animations/rain.json';
+import cloudAnimation from './animations/cloud.json';
+import emptyIcon from './icon/emptyIcon.webp'; // Placeholder for empty state icon
 
 const FavoriteCities = () => {
-    const [favoriteCities, setFavoriteCities] = useState(JSON.parse(localStorage.getItem('favoriteCities')) || []);
-    const [weatherData, setWeatherData] = useState({});
+    const [favoriteCities, setFavoriteCities] = React.useState(JSON.parse(localStorage.getItem('favoriteCities')) || []);
+    const [weatherData, setWeatherData] = React.useState({});
 
-    // Fetch weather data for all favorite cities
     const fetchWeatherData = async (city) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:5000/api/weather`, { params: { city } });
-            setWeatherData(prevState => ({ ...prevState, [city]: response.data.current_weather }));
+            const response = await axios.get(`http://127.0.0.1:5000/api/weather`, {params: {city}});
+            setWeatherData(prevState => ({...prevState, [city]: response.data.current_weather}));
         } catch (error) {
             console.error(`Error fetching weather data for ${city}:`, error);
         }
@@ -20,16 +23,19 @@ const FavoriteCities = () => {
         const updatedFavorites = favoriteCities.filter(favCity => favCity !== city);
         setFavoriteCities(updatedFavorites);
         localStorage.setItem('favoriteCities', JSON.stringify(updatedFavorites));
-        // Remove weather data for the deleted city
-        const newWeatherData = { ...weatherData };
-        delete newWeatherData[city];
-        setWeatherData(newWeatherData);
     };
 
-    useEffect(() => {
-        // Fetch weather data for each favorite city
-        favoriteCities.forEach(city => fetchWeatherData(city));
-    }, [favoriteCities]); // Fetch data when favorite cities change
+    const refreshWeather = (city) => {
+        fetchWeatherData(city);  // Add refresh functionality
+    };
+
+    const getWeatherAnimation = (description) => {
+        if (!description) return null;
+        if (description.includes('clear')) return sunAnimation;
+        if (description.includes('rain')) return rainAnimation;
+        if (description.includes('cloud')) return cloudAnimation;
+        return null;
+    };
 
     return (
         <div>
@@ -38,15 +44,28 @@ const FavoriteCities = () => {
                 <div className="favorite-cities">
                     {favoriteCities.map((city, index) => (
                         <div key={index} className="favorite-city-card">
-                            <WeatherCard city={city} weather={weatherData[city]} />
-                            <button onClick={() => handleDelete(city)} style={{ backgroundColor: 'gold', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-                                Delete
-                            </button>
+                            <div className="remove-button" onClick={() => handleDelete(city)}>
+                                <span className="remove-icon">−</span>
+                            </div>
+                            <h3>{city}</h3>
+                            <Lottie
+                                loop
+                                animationData={getWeatherAnimation(weatherData[city]?.description)}
+                                play
+                                style={{width: 80, height: 80, margin: "0 auto"}}
+                            />
+                            <p>Temperature: {weatherData[city]?.temperature}°C</p>
+                            <p>{weatherData[city]?.description}</p>
+                            <button onClick={() => refreshWeather(city)}>Refresh</button>
+                            {/* Refresh button */}
                         </div>
                     ))}
                 </div>
             ) : (
-                <p>No favorite cities added.</p>
+                <div className="favorite-cities-empty">
+                    <p className="no-favorites-text">No favorite cities added.</p>
+                    <img src={emptyIcon} alt="No favorites" className="empty-icon"/>
+                </div>
             )}
         </div>
     );
