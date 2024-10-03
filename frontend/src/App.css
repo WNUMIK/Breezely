@@ -1,37 +1,50 @@
+/* Global Styles */
+body {
+  background-color: #e6f7ff; /* Light blue background for the app */
+  font-family: Arial, sans-serif; /* Consistent font family */
+  margin: 0;
+  padding: 0;
+  min-height: 100vh; /* Ensure it covers full height */
+}
+
 .App {
-  text-align: center;
-  font-family: Arial, sans-serif;
+  text-align: center; /* Center text for the entire app */
 }
 
+/* Header Styles */
 .App-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
+  background-color: #282c34; /* Dark background for header */
+  padding: 20px; /* Padding around header */
+  color: white; /* White text in header */
 }
 
+/* Input and Button Styles */
 input {
-  padding: 10px;
-  margin-right: 10px;
-  font-size: 16px;
+  padding: 10px; /* Padding inside input */
+  margin-right: 10px; /* Space between input and button */
+  font-size: 16px; /* Font size for input */
+  border-radius: 4px; /* Rounded corners for input */
 }
 
 button {
-  padding: 10px;
-  background-color: #61dafb;
-  border: none;
-  color: #282c34;
-  font-size: 16px;
-  cursor: pointer;
+  padding: 10px; /* Padding inside button */
+  background-color: #61dafb; /* Button background color */
+  border: none; /* No border for button */
+  color: #282c34; /* Text color for button */
+  font-size: 16px; /* Font size for button */
+  cursor: pointer; /* Cursor changes to pointer on hover */
 }
 
 button:hover {
-  background-color: #21a1f1;
+  background-color: #21a1f1; /* Darker blue on hover */
 }
 
+/* Headings */
 h1 {
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* Space below main heading */
 }
 
+/* Paragraphs */
 p {
-  font-size: 18px;
+  font-size: 18px; /* Font size for paragraphs */
 }

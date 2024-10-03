@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';  // Optional: If you want to add styles later
-import Weather from './component/Weather';  // Import the Weather component
+import Weather from './components/Weather';  // Import the Weather components
 
 function App() {
   return (
