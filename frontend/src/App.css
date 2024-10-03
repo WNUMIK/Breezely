@@ -173,7 +173,11 @@ button:focus {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   text-align: center;
-  width: 180px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .city-tile h4 {
@@ -184,5 +188,5 @@ button:focus {
 .city-tile p {
   font-size: 14px;
   color: #666;
+  margin: 5px 0; /* Ensure consistent spacing between text */
 }
-

@@ -129,3 +129,31 @@
   }
 }
 
+/* Weather Card */
+.weather-card {
+  display: flex; /* Use flexbox for alignment */
+  justify-content: space-between; /* Space between details and animation */
+  align-items: center; /* Center items vertically */
+  background-color: #f4f4f4; /* Background for card */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px; /* Padding inside the card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  margin-top: 20px; /* Space above the card */
+}
+
+/* Weather Details */
+.weather-details {
+  flex: 1; /* Allow details to take available space */
+  margin-right: 10px; /* Small margin to separate details from animation */
+}
+
+/* Weather Animation */
+.weather-animation {
+  flex-shrink: 0; /* Prevent the animation from shrinking */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px; /* Set width for animation */
+  height: 150px; /* Set height for animation */
+}
+
