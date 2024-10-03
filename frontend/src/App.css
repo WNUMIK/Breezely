@@ -129,3 +129,60 @@ button:focus {
     gap: 15px; /* Reduce gap between buttons */
   }
 }
+
+/* Search Bar */
+.search-bar {
+  margin: 30px auto;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar input {
+  padding: 12px;
+  width: 70%;
+  font-size: 16px;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #ccc;
+}
+
+.search-bar button {
+  padding: 12px 20px;
+  background-color: #4E8098;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #3A6C81;
+}
+
+/* Featured Cities */
+.featured-cities {
+  display: flex;
+  justify-content: space-around;
+  margin: 40px 0;
+}
+
+.city-tile {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 180px;
+}
+
+.city-tile h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.city-tile p {
+  font-size: 14px;
+  color: #666;
+}
+
