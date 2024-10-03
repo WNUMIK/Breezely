@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SingleCityWeather from './components/SingleCityWeather';
 import WeatherComparison from './components/WeatherComparison';
 import FeaturedCities from './components/FeaturedCities';
-import FavoriteCities from './components/FavoriteCities'; // Import FavoriteCities
+import FavoriteCities from './components/FavoriteCities';
 import './App.css'
 
 function App() {
@@ -21,6 +21,11 @@ function App() {
         if (city.trim()) {
             setView('singleCity');
         }
+    };
+
+    const handleCityClick = (selectedCity) => {
+        setCity(selectedCity);
+        setView('singleCity');
     };
 
     return (
@@ -52,8 +57,8 @@ function App() {
                             </div>
                         </div>
 
-                        <FeaturedCities />
-                        <FavoriteCities /> {/* Show favorite cities */}
+                        <FeaturedCities onCityClick={handleCityClick} /> {/* Handle featured city click */}
+                        <FavoriteCities />
                     </>
                 )}
 
