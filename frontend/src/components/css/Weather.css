@@ -157,3 +157,18 @@
   height: 150px; /* Set height for animation */
 }
 
+.back-button {
+    background-color: #61dafb; /* Button background color */
+    border: none; /* No border for the button */
+    color: #282c34; /* Text color */
+    padding: 10px 20px; /* Padding around text */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Transition effect */
+}
+
+.back-button:hover {
+    background-color: #21a1f1; /* Darker blue on hover */
+}
+
