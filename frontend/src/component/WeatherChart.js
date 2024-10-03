@@ -10,7 +10,10 @@ function WeatherChart({ weather }) {
     const labels = weather.forecast.map((day) =>
       new Date(day.date).toLocaleDateString()
     );
+
     const temperatureData = weather.forecast.map((day) => day.temperature);
+    const humidityData = weather.forecast.map((day) => day.humidity);
+    const precipitationData = weather.forecast.map((day) => day.precipitation);
 
     return {
       labels,
@@ -22,6 +25,20 @@ function WeatherChart({ weather }) {
           borderColor: 'rgba(75,192,192,1)',
           tension: 0.1,
         },
+        {
+          label: 'Humidity (%)',
+          data: humidityData,
+          fill: false,
+          borderColor: 'rgba(54, 162, 235, 1)',
+          tension: 0.1,
+        },
+        {
+          label: 'Precipitation (mm)',
+          data: precipitationData,
+          fill: false,
+          borderColor: 'rgba(153, 102, 255, 1)',
+          tension: 0.1,
+        },
       ],
     };
   };
@@ -29,8 +46,7 @@ function WeatherChart({ weather }) {
   return (
     <div className="row justify-content-center">
       <div className="col-md-8">
-        {/* Use the key prop to force re-rendering */}
-        <Line data={generateChartData()} key={weather.city} />
+        <Line data={generateChartData()} />
       </div>
     </div>
   );
