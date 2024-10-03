@@ -14,12 +14,15 @@ function SingleCityWeather({ city, onBack }) {
     const [forecastData, setForecastData] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false); // New state for favorite status
+    const [favoriteButtonText, setFavoriteButtonText] = useState('Save as Favorite'); // Button text state
+    const [favoriteButtonColor, setFavoriteButtonColor] = useState('#eee8aa'); // Initial color
 
     useEffect(() => {
         const fetchWeatherData = async () => {
             if (currentCity) {
                 setLoading(true);
-                setError(''); // Clear the error before making the request
+                setError('');
 
                 try {
                     const response = await axios.get(`http://127.0.0.1:5000/api/weather`, { params: { city: currentCity } });
@@ -27,7 +30,7 @@ function SingleCityWeather({ city, onBack }) {
                     setForecastData(response.data.forecast);
                     setError(''); // Clear error if data is successfully fetched
                 } catch (err) {
-                    setError('City not found. Please try again.'); // Set error if fetch fails
+                    setError('City not found. Please try again.');
                     setWeatherData(null);
                     setForecastData(null);
                 } finally {
@@ -55,26 +58,52 @@ function SingleCityWeather({ city, onBack }) {
         }
     };
 
+    const saveFavoriteCity = () => {
+        const favorites = JSON.parse(localStorage.getItem('favoriteCities')) || [];
+
+        if (!isFavorite) {
+            // If not currently a favorite, add it
+            favorites.push(currentCity);
+            localStorage.setItem('favoriteCities', JSON.stringify(favorites));
+            setIsFavorite(true); // Update state to reflect city is a favorite
+            setFavoriteButtonText('Added as Favorite'); // Change button text
+            setFavoriteButtonColor('#98FB98'); // Light green color
+        } else {
+            // If it is a favorite, remove it
+            const updatedFavorites = favorites.filter(favCity => favCity !== currentCity);
+            localStorage.setItem('favoriteCities', JSON.stringify(updatedFavorites));
+            setIsFavorite(false); // Update state to reflect city is no longer a favorite
+            setFavoriteButtonText('Save as Favorite'); // Change button text back
+            setFavoriteButtonColor('#eee8aa'); // Reset to original color
+        }
+    };
+
     return (
         <div>
-            <button className="back-button" onClick={onBack} style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 10 }}>
-                Back
-            </button>
-
-            <h2 className="section-title">Weather for {currentCity}</h2>
-
-            <div className="input-section">
-                <input
-                    type="text"
-                    placeholder="Enter city"
-                    value={currentCity}
-                    onChange={(e) => setCurrentCity(e.target.value)} // Update local state with input
-                />
-                <button onClick={handleSearch}>Search</button> {/* Button to search for a new city */}
+            <div className="header-buttons">
+                <button className="back-button" onClick={onBack}>
+                    Back
+                </button>
+                <div className="input-section">
+                    <input
+                        type="text"
+                        placeholder="Enter city"
+                        value={currentCity}
+                        onChange={(e) => setCurrentCity(e.target.value)}
+                    />
+                    <button onClick={handleSearch}>Search</button> {/* Button to search for a new city */}
+                </div>
+                <button
+                    className="favorite-button"
+                    onClick={saveFavoriteCity}
+                    style={{ backgroundColor: favoriteButtonColor }} // Set dynamic background color
+                >
+                    {favoriteButtonText} {/* Change button text */}
+                </button>
             </div>
 
             {loading && <p>Loading...</p>}
-            {error && <p className="error">{error}</p>} {/* Display error if exists */}
+            {error && <p className="error">{error}</p>}
 
             {weatherData && (
                 <div className="weather-card">

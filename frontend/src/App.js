@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import './App.css';
 import SingleCityWeather from './components/SingleCityWeather';
 import WeatherComparison from './components/WeatherComparison';
 import FeaturedCities from './components/FeaturedCities';
+import FavoriteCities from './components/FavoriteCities'; // Import FavoriteCities
+import './App.css'
 
 function App() {
     const [view, setView] = useState(null);
@@ -14,12 +15,11 @@ function App() {
 
     const goToHomePage = () => {
         setView(null);
-        setCity(''); // Clear the city input when going back to the homepage
     };
 
     const handleSearch = () => {
         if (city.trim()) {
-            setView('singleCity'); // Set view to singleCity
+            setView('singleCity');
         }
     };
 
@@ -45,18 +45,20 @@ function App() {
                         </div>
 
                         <div className="view-selection">
-                            <h2>Maybe you want to compare couple cities?</h2>
+                            <h2>What would you like to do?</h2>
                             <div className="view-selection-buttons">
-                                <button onClick={() => handleViewChange('comparison')}>Yes</button>
+                                <button onClick={() => handleViewChange('singleCity')}>Get Weather for One City</button>
+                                <button onClick={() => handleViewChange('comparison')}>Compare Weather in Multiple Cities</button>
                             </div>
                         </div>
 
                         <FeaturedCities />
+                        <FavoriteCities /> {/* Show favorite cities */}
                     </>
                 )}
 
-                {view === 'singleCity' && <SingleCityWeather city={city} onBack={goToHomePage} />}
-                {view === 'comparison' && <WeatherComparison onBack={goToHomePage} />}
+                {view === 'singleCity' && <SingleCityWeather city={city} onBack={() => setView(null)} />}
+                {view === 'comparison' && <WeatherComparison onBack={() => setView(null)} />}
             </div>
 
             <footer>
