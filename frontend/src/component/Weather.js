@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { Line } from 'react-chartjs-2';  // Import Line chart from react-chartjs-2
+import 'chart.js/auto';  // Required to register Chart.js
 
 function Weather() {
   const [city, setCity] = useState('');
@@ -19,6 +20,29 @@ function Weather() {
       setError('City not found');
       setWeather(null);
     }
+  };
+
+  const generateChartData = () => {
+    if (!weather) return {};
+
+    const labels = weather.forecast.map((day) =>
+      new Date(day.date).toLocaleDateString()
+    );
+
+    const temperatureData = weather.forecast.map((day) => day.temperature);
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Temperature (°C)',
+          data: temperatureData,
+          fill: false,
+          borderColor: 'rgba(75,192,192,1)',
+          tension: 0.1,
+        },
+      ],
+    };
   };
 
   return (
@@ -55,6 +79,14 @@ function Weather() {
                   <p className="card-text">Wind Speed: {weather.current_weather.wind_speed} m/s</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <h3 className="text-center my-4">5-Day Temperature Trend</h3>
+          <div className="row justify-content-center">
+            <div className="col-md-8">
+              {/* Line Chart for Temperature */}
+              <Line data={generateChartData()} />
             </div>
           </div>
 
