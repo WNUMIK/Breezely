@@ -146,14 +146,14 @@ button:focus {
 /* Search Bar */
 .search-bar {
   margin: 30px auto;
-  width: 60%;
+  width: 80%; /* Increase width to 80% */
   display: flex;
   justify-content: center;
 }
 
 .search-bar input {
   padding: 12px;
-  width: 70%;
+  width: 85%; /* Adjust width for the input to fit inside the search bar */
   font-size: 16px;
   border-radius: 5px 0 0 5px;
   border: 1px solid #ccc;
@@ -226,6 +226,11 @@ button:focus {
   flex-direction: column;
   justify-content: center;
   margin: 10px;
+}
+
+.city-tile:hover, .favorite-city-card:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
 }
 
 /* Red Circle Remove Button */
