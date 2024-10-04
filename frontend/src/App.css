@@ -253,3 +253,18 @@ h3 {
   text-align: center;
   margin-top: 10px;
 }
+
+.add-destination-btn {
+  padding: 10px;
+  font-size: 14px;
+  background-color: #4E8098;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-destination-btn:hover {
+  background-color: #3A6C81;
+}

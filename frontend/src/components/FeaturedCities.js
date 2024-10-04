@@ -5,10 +5,12 @@ import sunAnimation from './animations/sun.json';
 import rainAnimation from './animations/rain.json';
 import cloudAnimation from './animations/cloud.json';
 
-const FeaturedCities = ({ onCityClick }) => {
+const FeaturedCities = ({onCityClick}) => {
     const [featuredCitiesWeather, setFeaturedCitiesWeather] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [myDestinations, setMyDestinations] = useState(JSON.parse(localStorage.getItem('myDestinations')) || []);
+
 
     const popularCities = ['New York', 'Tokyo', 'Paris', 'London', 'Berlin'];
 
@@ -51,6 +53,14 @@ const FeaturedCities = ({ onCityClick }) => {
         return <p>{error}</p>;
     }
 
+    const addDestination = (city) => {
+        if (!myDestinations.includes(city)) {
+            const updatedDestinations = [...myDestinations, city];
+            setMyDestinations(updatedDestinations);
+            localStorage.setItem('myDestinations', JSON.stringify(updatedDestinations));
+        }
+    };
+
     return (
         <div className="featured-cities">
             {featuredCitiesWeather.map((weather, index) => (
@@ -58,7 +68,7 @@ const FeaturedCities = ({ onCityClick }) => {
                     className="city-tile"
                     key={index}
                     onClick={() => onCityClick(weather.city)} // Call onCityClick when a city tile is clicked
-                    style={{ cursor: 'pointer' }} // Add cursor pointer for clickability
+                    style={{cursor: 'pointer'}} // Add cursor pointer for clickability
                 >
                     <h4>{weather.city}</h4>
                     <Lottie

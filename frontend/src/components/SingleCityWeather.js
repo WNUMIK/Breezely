@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import WeatherChart from './WeatherChart';
 import ForecastCard from './ForecastCard';
@@ -8,7 +8,7 @@ import rainAnimation from './animations/rain.json';
 import cloudAnimation from './animations/cloud.json';
 import './css/Weather.css';
 
-function SingleCityWeather({ city, onBack }) {
+function SingleCityWeather({city, onBack}) {
     const [currentCity, setCurrentCity] = useState(city);
     const [weatherData, setWeatherData] = useState(null);
     const [forecastData, setForecastData] = useState(null);
@@ -18,6 +18,9 @@ function SingleCityWeather({ city, onBack }) {
     const [favoriteButtonText, setFavoriteButtonText] = useState('Save as Favorite'); // Button text state
     const [favoriteButtonColor, setFavoriteButtonColor] = useState('#eee8aa'); // Initial color
 
+    const [season, setSeason] = useState(''); // New state for season
+    const [suggestions, setSuggestions] = useState([]); // New state for suggestions
+
     useEffect(() => {
         const fetchWeatherData = async () => {
             if (currentCity) {
@@ -25,9 +28,14 @@ function SingleCityWeather({ city, onBack }) {
                 setError('');
 
                 try {
-                    const response = await axios.get(`http://127.0.0.1:5000/api/weather`, { params: { city: currentCity } });
+                    const response = await axios.get(`http://127.0.0.1:5000/api/weather`, {params: {city: currentCity}});
                     setWeatherData(response.data.current_weather);
                     setForecastData(response.data.forecast);
+
+                    // Set season and suggestions
+                    setSeason(response.data.season);
+                    setSuggestions(response.data.suggestions);
+
                     setError(''); // Clear error if data is successfully fetched
                 } catch (err) {
                     setError('City not found. Please try again.');
@@ -91,12 +99,13 @@ function SingleCityWeather({ city, onBack }) {
                         value={currentCity}
                         onChange={(e) => setCurrentCity(e.target.value)}
                     />
-                    <button onClick={handleSearch}>Search</button> {/* Button to search for a new city */}
+                    <button onClick={handleSearch}>Search</button>
+                    {/* Button to search for a new city */}
                 </div>
                 <button
                     className="favorite-button"
                     onClick={saveFavoriteCity}
-                    style={{ backgroundColor: favoriteButtonColor }} // Set dynamic background color
+                    style={{backgroundColor: favoriteButtonColor}} // Set dynamic background color
                 >
                     {favoriteButtonText} {/* Change button text */}
                 </button>
@@ -113,13 +122,21 @@ function SingleCityWeather({ city, onBack }) {
                         <p>{weatherData.description}</p>
                         <p>Humidity: {weatherData.humidity}%</p>
                         <p>Wind Speed: {weatherData.wind_speed} m/s</p>
+                        <p>Season: {season}</p> {/* Display season */}
+                        {suggestions && suggestions.length > 0 && (
+                            <ul>
+                                {suggestions.map((suggestion, index) => (
+                                    <li key={index}>{suggestion}</li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                     <div className="weather-animation">
                         <Lottie
                             loop
                             animationData={getWeatherAnimation(weatherData.description)}
                             play
-                            style={{ width: '150px', height: '150px' }} // Adjust size as needed
+                            style={{width: '150px', height: '150px'}} // Adjust size as needed
                         />
                     </div>
                 </div>
@@ -127,8 +144,8 @@ function SingleCityWeather({ city, onBack }) {
 
             {forecastData && (
                 <>
-                    <WeatherChart weather={{ forecast: forecastData }} />
-                    <ForecastCard forecast={forecastData} />
+                    <WeatherChart weather={{forecast: forecastData}}/>
+                    <ForecastCard forecast={forecastData}/>
                 </>
             )}
         </div>
