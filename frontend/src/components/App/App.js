@@ -10,6 +10,7 @@ function App() {
     const [view, setView] = useState(null);
     const [city, setCity] = useState('');
     const [locationWeather, setLocationWeather] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     // Geolocation-based weather fetching logic
@@ -18,23 +19,30 @@ function App() {
             navigator.geolocation.getCurrentPosition(
                 async (position) => {
                     const {latitude, longitude} = position.coords;
-
+                    setLoading(true); // Start loading
                     try {
-                        // Fetch weather for the user's current location
                         const response = await axios.get('http://127.0.0.1:5000/api/weather', {
                             params: {lat: latitude, lon: longitude},
                         });
                         setLocationWeather(response.data);
                     } catch (err) {
-                        setError('Failed to fetch weather data for your location.');
+                        if (!err.response) {
+                            setError('Network error. Please check your connection.');
+                        } else {
+                            setError('Failed to fetch weather data for your location.');
+                        }
+                    } finally {
+                        setLoading(false); // Stop loading
                     }
                 },
                 (err) => {
                     setError('Geolocation permission denied. Please search by city name.');
+                    setLoading(false); // Stop loading if geolocation is denied
                 }
             );
         } else {
             setError('Geolocation is not supported by your browser.');
+            setLoading(false); // Stop loading if geolocation is unsupported
         }
     }, []);
 
@@ -53,10 +61,14 @@ function App() {
     };
 
     const handleSearch = () => {
-        if (city.trim()) {
-            setView('singleCity');
+        if (!city.trim()) {
+            setError("Please enter a valid city name.");
+            return;
         }
+        setError(null); // Clear previous errors
+        setView('singleCity');
     };
+
 
     return (
         <div className={styles.App}>
@@ -75,29 +87,43 @@ function App() {
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
                                 placeholder="Search weather by city"
+                                aria-label="Search weather by city"
                             />
-                            <button onClick={handleSearch}>Search</button>
+                            <button onClick={handleSearch} aria-label="Search for weather by city">
+                                Search
+                            </button>
                         </div>
-
-                        {/* Display geolocation-based weather if available */}
-                        {error && <p>{error}</p>}
-                        {!error && locationWeather && (
-                            <div className={styles.locationWeatherCard}>
-                                <div className={styles.locationWeatherCardIcon}>
-                                    {/* Weather icon based on local weather (optional) */}
-                                    🌦️
-                                </div>
-                                <h3>
-                                    Weather for your location
-                                    <span className={styles.geoIcon}>📍</span>
-                                </h3>
-                                {/* Display the city name */}
-                                <p className={styles.cityName}>{locationWeather.city}</p>
-                                <p>Temperature: {locationWeather.current_weather.temperature}°C</p>
-                                <p>Description: {locationWeather.current_weather.description}</p>
+                        {loading ? (
+                            <div className={styles.loading}>
+                                <p>Loading weather data...</p>
                             </div>
+                        ) : (
+                            <>
+                                {/* Display geolocation-based weather if available */}
+                                {error && (
+                                    <div>
+                                        <p>{error}</p>
+                                        <p>Please use the search bar above to find weather by city.</p>
+                                    </div>
+                                )}
+                                {!error && locationWeather && (
+                                    <div className={styles.locationWeatherCard}>
+                                        <div className={styles.locationWeatherCardIcon}>
+                                            {/* Adjust icon size for more emphasis */}
+                                            🌦️
+                                        </div>
+                                        <h3>
+                                            Weather for your location
+                                            <span className={styles.geoIcon}>📍</span>
+                                        </h3>
+                                        {/* Emphasize the city name */}
+                                        <p className={styles.cityName}>{locationWeather.city}</p>
+                                        <p>Temperature: {locationWeather.current_weather.temperature}°C</p>
+                                        <p>Description: {locationWeather.current_weather.description}</p>
+                                    </div>
+                                )}
+                            </>
                         )}
-
                         {/* Existing functionality for views */}
                         <div className={styles.viewSelection}>
                             <h2>What would you like to do?</h2>

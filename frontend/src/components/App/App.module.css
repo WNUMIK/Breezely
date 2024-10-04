@@ -96,7 +96,7 @@
 }
 
 .locationWeatherCardIcon {
-    font-size: 3em; /* Larger weather icon for emphasis */
+    font-size: 4em; /* Make the weather icon larger for emphasis */
     margin-bottom: 10px;
 }
 
@@ -107,10 +107,10 @@
 }
 
 .cityName {
-    font-size: 1.2em;
+    font-size: 1.5em; /* Increase city name size */
+    font-weight: bold; /* Make it bolder */
+    color: #007bff; /* A slight blue shade for emphasis */
     margin-top: 5px;
-    color: #333;
-    font-weight: bold;
 }
 
 .footer {
@@ -118,4 +118,11 @@
     color: #fff;
     padding: 10px;
     text-align: center;
+}
+
+.loading {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 20px;
+    color: #555;
 }
