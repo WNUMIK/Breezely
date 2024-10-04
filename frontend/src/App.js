@@ -3,7 +3,7 @@ import SingleCityWeather from './components/SingleCityWeather';
 import WeatherComparison from './components/WeatherComparison';
 import FeaturedCities from './components/FeaturedCities';
 import FavoriteCities from './components/FavoriteCities';
-import './App.css'
+import './css/styles.css';
 
 function App() {
     const [view, setView] = useState(null);

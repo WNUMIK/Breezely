@@ -1,0 +1,381 @@
+/* General Body Styling */
+body {
+    background-color: #F4F4F9;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+/* Header Styling */
+.App-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #2E3B4E;
+    color: white;
+}
+
+.logo img {
+    height: 80px;
+    margin-right: 10px;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* Container for content and ensuring footer is at the bottom */
+.container {
+    min-height: 80vh; /* Ensure content takes up enough height */
+    padding-bottom: 20px; /* Space for the footer */
+}
+
+/* Row layout for buttons and sections */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 0 -15px;
+}
+
+/* Footer Styling */
+footer {
+    position: relative;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    background-color: #2E3B4E;
+    color: white;
+    text-align: center;
+}
+
+/* Button Styling */
+button {
+    padding: 10px 20px;
+    background-color: #4E8098; /* Bold teal */
+    color: white;
+    border: none;
+    border-radius: 4px; /* Subtle rounded corners */
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #3A6C81; /* Darker version on hover */
+}
+
+button:focus {
+    outline: none;
+    border: 2px solid #2E3B4E; /* Add a focus state */
+}
+
+.header-buttons-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+/* Back Button */
+.back-button {
+    flex: 1;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 12px 20px;
+}
+
+/* Search Input Section */
+.input-section {
+    flex: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-section input {
+    flex: 2;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.input-section button {
+    flex: 1;
+    background-color: #4E8098;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+
+/* Favorite Button */
+.favorite-button {
+    flex: 1;
+    background-color: #eee8aa;
+    color: #282c34;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    font-size: 22px;
+    color: #4E8098;
+}
+
+.card p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* View selection */
+.view-selection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.view-selection h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    color: #333; /* Darker gray for a more corporate feel */
+    margin-bottom: 30px;
+}
+
+.view-selection-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between buttons */
+    margin-top: 20px;
+}
+
+/* Weather Card Styling */
+.weather-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: left;
+    margin: 20px 0;
+    max-width: 400px;
+}
+
+.weather-card h3 {
+    font-size: 24px;
+    color: #2E3B4E;
+    margin-bottom: 15px;
+}
+
+.weather-card .display-4 {
+    font-size: 48px;
+    color: #4E8098;
+    margin: 10px 0;
+}
+
+.weather-card p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.weather-card .text-muted {
+    font-size: 14px;
+    color: #888;
+}
+
+/* Error Messages */
+.error {
+    color: red;
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+/* Search Bar */
+.search-bar {
+    margin: 30px auto;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar input {
+    padding: 12px;
+    width: 70%;
+    font-size: 16px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid #ccc;
+}
+
+.search-bar button {
+    padding: 12px 20px;
+    background-color: #4E8098;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #3A6C81;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-group .form-control {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.input-group .btn {
+    padding: 10px 20px;
+    background-color: #4E8098;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.input-group .btn:hover {
+    background-color: #3A6C81;
+}
+
+/* Featured Cities and Favorite Cities Layout */
+.featured-cities, .favorite-cities {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.city-tile, .favorite-city-card {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    width: 200px;
+    margin: 10px;
+}
+
+.city-tile:hover, .favorite-city-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.city-tile h4 {
+    font-size: 18px;
+    color: #333;
+}
+
+.city-tile p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Favorite City Card */
+.favorite-city-card {
+    position: relative; /* Allows absolute positioning of the delete button */
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+}
+
+/* Red Circle Remove Button */
+.remove-button {
+    position: absolute;
+    top: 10px; /* Position the button at the top left */
+    left: 10px;
+    background-color: #ff6b6b; /* Red color for remove button */
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.remove-icon {
+    font-size: 18px; /* Adjust the size of the minus symbol */
+    line-height: 1;
+}
+
+/* Card Title */
+.favorite-city-card h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #2E3B4E;
+}
+
+/* Temperature and Description */
+.favorite-city-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Responsiveness for Mobile */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 20px;
+    }
+
+    .header-buttons-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .featured-cities, .favorite-cities {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .city-tile, .favorite-city-card {
+        width: 100%;
+        max-width: 300px;
+    }
+}

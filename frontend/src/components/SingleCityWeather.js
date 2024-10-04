@@ -6,7 +6,7 @@ import Lottie from 'react-lottie-player';
 import sunAnimation from './animations/sun.json';
 import rainAnimation from './animations/rain.json';
 import cloudAnimation from './animations/cloud.json';
-import './css/Weather.css';
+import '../css/styles.css';  // Import the updated CSS for styling
 
 function SingleCityWeather({city, onBack}) {
     const [currentCity, setCurrentCity] = useState(city);
@@ -88,7 +88,7 @@ function SingleCityWeather({city, onBack}) {
 
     return (
         <div>
-            <div className="header-buttons">
+            <div className="header-buttons-row">
                 <button className="back-button" onClick={onBack}>
                     Back
                 </button>
@@ -99,8 +99,7 @@ function SingleCityWeather({city, onBack}) {
                         value={currentCity}
                         onChange={(e) => setCurrentCity(e.target.value)}
                     />
-                    <button onClick={handleSearch}>Search</button>
-                    {/* Button to search for a new city */}
+                    <button className="input-section-button" onClick={handleSearch}>Search</button>
                 </div>
                 <button
                     className="favorite-button"

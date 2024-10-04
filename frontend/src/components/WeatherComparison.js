@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './css/Weather.css';  // Import the updated CSS for styling
+import '../css/styles.css';  // Import the updated CSS for styling
 
 function WeatherComparison() {
   const [cityInput, setCityInput] = useState(''); // Input for adding a city
