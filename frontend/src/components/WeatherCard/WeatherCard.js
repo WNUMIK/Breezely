@@ -1,16 +1,30 @@
 import React from 'react';
-import styles from './WeatherCard.module.css';
+import Lottie from 'react-lottie-player';
+import sunAnimation from '../animations/sun.json';
+import rainAnimation from '../animations/rain.json';
+import cloudAnimation from '../animations/cloud.json';
+import styles from './WeatherCard.module.css'; // For common styles
 
-function WeatherCard({ date, temperature, description }) {
-  return (
-    <div className={styles.weatherCardContainer}>
-      <h3 className={styles.weatherCardTitle}>{date}</h3>
-      <div className={styles.weatherDetails}>
-        <p className={styles.temperature}>{temperature}°C</p>
-        <p className={styles.description}>{description}</p>
-      </div>
-    </div>
-  );
-}
+const WeatherCard = ({ city, weatherData, onClick, customStyle }) => {
+    const getWeatherAnimation = (description) => {
+        if (description.includes('clear')) return sunAnimation;
+        if (description.includes('rain')) return rainAnimation;
+        if (description.includes('cloud')) return cloudAnimation;
+    };
+
+    return (
+        <div className={`${styles.card} ${customStyle}`} onClick={() => onClick(city)} style={{ cursor: 'pointer' }}>
+            <h4>{city}</h4>
+            <Lottie
+                loop
+                animationData={getWeatherAnimation(weatherData.description)}
+                play
+                style={{ width: 80, height: 80 }}
+            />
+            <p>Temperature: {weatherData.temperature}°C</p>
+            <p>{weatherData.description}</p>
+        </div>
+    );
+};
 
 export default WeatherCard;

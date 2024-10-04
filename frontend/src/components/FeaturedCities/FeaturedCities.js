@@ -47,14 +47,6 @@ const FeaturedCities = ({ onCityClick }) => {
         }
     };
 
-    const addDestination = (city) => {
-        if (!myDestinations.includes(city)) {
-            const updatedDestinations = [...myDestinations, city];
-            setMyDestinations(updatedDestinations);
-            localStorage.setItem('myDestinations', JSON.stringify(updatedDestinations));
-        }
-    };
-
     if (loading) {
         return <p>Loading featured cities...</p>;
     }
