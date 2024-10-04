@@ -67,7 +67,7 @@ function App() {
             </div>
 
             <footer className={styles.footer}>
-                <p>© 2024 Breezely | Contact Us | Privacy Policy</p>
+                <p>© 2024 Breezly | Contact Us | Privacy Policy</p>
             </footer>
         </div>
     );

@@ -1,134 +1,51 @@
-:root {
-    --primary-color: #3498db;
-    --secondary-color: #f0f0f0;
-    --text-color: #333;
-    --background-color: #ffffff;
-    --card-background: #f9f9f9;
-    --button-hover-color: #217dbb;
-    --border-radius: 10px;
-}
+/* Importing Google Fonts for modern typography */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #F4F4F9;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f5f5; /* Light gray for background */
+    color: #333; /* Dark text for readability */
     margin: 0;
     padding: 0;
-    color: #333;
-    line-height: 1.6;
+    box-sizing: border-box;
 }
 
-/* Button Styles */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600; /* Bolder headings */
+    color: #222; /* Slightly darker color for headings */
+}
+
+p {
+    font-weight: 300;
+    line-height: 1.6; /* Spacing for easier readability */
+}
+
 button {
-    font-family: inherit;
-    padding: 10px 20px;
-    background-color: #6495ED;
-    color: white;
-    border: none;
-    border-radius: 8px; /* Updated to match modern rounded styles */
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: uppercase;
-    cursor: pointer;
+    font-weight: 400;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 5px;
+    background-color: #0099dd;
+    cursor: pointer;
+    border-color: transparent;
+}
+
+input[type="text"], input[type="search"] {
+    font-family: 'Poppins', sans-serif;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+/* Hover effects for inputs */
+input[type="text"]:hover, input[type="search"]:hover {
+    border-color: #888;
 }
 
 button:hover {
-    background-color: #3A6C81;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Added box shadow on hover */
+    background-color: #0056b3; /* Slightly darken on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-button:focus {
-    outline: none;
-    border: 2px solid #2E3B4E;
-}
-
-.card {
-    background-color: var(--card-background);
-    border-radius: var(--border-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    flex-basis: 48%;
-    margin-bottom: 20px;
-}
-
-/* Flex Containers for UI Alignment */
-.flex-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0;
-}
-
-/* Featured Cities and City Cards */
-.featuredCities {
-    display: flex;
-    justify-content: space-around;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin: 40px 0;
-}
-
-.cityCard {
-    background-color: var(--card-background);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    text-align: center;
-    transition: transform 0.3s;
-    width: 250px; /* Ensure each card has the same width */
-}
-
-.cityCard:hover {
-    transform: translateY(-5px);
-}
-
-.cityTitle {
-    font-size: 1.5rem;
-    color: var(--text-color);
-    margin-bottom: 10px;
-}
-
-.cityTemperature, .cityDescription {
-    font-size: 1.2rem;
-    color: #777;
-    margin-bottom: 15px;
-}
-
-/* Search Bar Styling */
-.search-bar {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-.search-input {
-    width: 400px;
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px 0 0 8px;
-}
-
-.search-button {
-    padding: 12px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 0 8px 8px 0;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.search-button:hover {
-    background-color: #0056b3;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Footer */
-.footer {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-    font-size: 0.875rem;
-}

@@ -4,66 +4,154 @@
   align-items: center;
   gap: 20px;
   padding: 20px;
+  width: 98%;
+  background-color: #f2f5f9;
 }
 
-.header-buttons-row {
+.headerButtonsRow {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
   width: 100%;
-  gap: 10px;
 }
 
-.back-button,
-.favorite-button {
+.backButton,
+.favoriteButton {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  background-color: #00aaff;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.input-section {
-  flex: 3;
+.backButton:hover,
+.favoriteButton:hover {
+  background-color: #0099dd;
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.inputSection {
+  flex: 2;
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 
-.input-section input {
-  flex: 1;
-  padding: 10px;
+.inputField {
+  width: 100%;
+  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.input-section-button {
-  padding: 10px 15px;
-  margin-left: 5px;
+.inputField:focus {
+  border-color: #00aaff;
+  box-shadow: 0px 0px 8px rgba(0, 170, 255, 0.3);
+}
+
+.inputButton {
+  padding: 12px 20px;
+  margin-left: 10px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #00aaff;
   color: white;
   font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
-.weather-dashboard {
-  display: flex;
-  flex-wrap: wrap;
+.inputButton:hover {
+  background-color: #0099dd;
+}
+
+/* Grid Layout for Content */
+.weatherDashboard {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); /* 12-column grid */
   gap: 20px;
   width: 100%;
-  justify-content: space-between;
 }
 
-.weather-card,
-.weather-animation,
-.forecast-chart,
-.weather-map,
-.forecast-card-container {
-  flex: 1;
-  min-width: 250px;
+/* Cards */
+.weatherCard {
+  grid-column: span 4; /* Take 4 columns */
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.weatherAnimation {
+  grid-column: span 4;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 87%;
+}
+
+.suggestions {
+  grid-column: span 4;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Map should take full width */
+.weatherMap {
+  grid-column: span 12;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.forecastData {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  grid-column: span 12;
+  padding: 20px;
+}
+.forecastCards {
+  grid-column: span 12;
+  display: flex;
+  gap: 10px;
+}
+
+.forecastCardContainer {
+  flex: 1;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  min-height: 100px; /* Adjust forecast card height */
+}
+
+.forecastCardContainer h4 {
+  font-size: 1.25rem; /* Adjust the size to match other titles */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px; /* Add some spacing below the title */
 }

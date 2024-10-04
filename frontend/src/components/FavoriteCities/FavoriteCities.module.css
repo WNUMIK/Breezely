@@ -26,6 +26,9 @@
   color: #ff6961;
 }
 
+.removeButton:hover {
+  background-color: #ffffff;
+}
 .weatherDetails {
   text-align: center;
 }
