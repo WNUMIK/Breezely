@@ -71,6 +71,48 @@
     font-size: 16px;
 }
 
+.locationWeatherCard {
+    background-color: #f0f8ff; /* Light blue background for emphasis */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 100%;
+}
+
+.locationWeatherCard h3 {
+    display: flex;
+    align-items: center; /* Aligns icon and text */
+    justify-content: center; /* Centers the text and icon */
+    margin-bottom: 10px;
+    font-size: 1.4em;
+}
+
+.locationWeatherCard p {
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+.locationWeatherCardIcon {
+    font-size: 3em; /* Larger weather icon for emphasis */
+    margin-bottom: 10px;
+}
+
+.geoIcon {
+    margin-left: 10px; /* Adds spacing between text and icon */
+    font-size: 1.2em;
+    color: #007bff; /* Blue color for location indicator */
+}
+
+.cityName {
+    font-size: 1.2em;
+    margin-top: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
 .footer {
     background-color: #6495ED;
     color: #fff;
