@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import SingleCityWeather from './components/SingleCityWeather';
-import WeatherComparison from './components/WeatherComparison';
-import FeaturedCities from './components/FeaturedCities';
-import FavoriteCities from './components/FavoriteCities';
-import './css/styles.css';
+import SingleCityWeather from '../SingleCityWeather/SingleCityWeather';
+import WeatherComparison from '../WeatherComparison/WeatherComparison';
+import FeaturedCities from '../FeaturedCities/FeaturedCities';
+import FavoriteCities from '../FavoriteCities/FavoriteCities';
+import styles from './App.module.css'; // CSS Module for App-specific styles
 
 function App() {
     const [view, setView] = useState(null);
@@ -17,29 +17,29 @@ function App() {
         setView(null);
     };
 
+    const handleCityClick = (selectedCity) => {
+        setCity(selectedCity);
+        setView('singleCity');
+    };
+
     const handleSearch = () => {
         if (city.trim()) {
             setView('singleCity');
         }
     };
 
-    const handleCityClick = (selectedCity) => {
-        setCity(selectedCity);
-        setView('singleCity');
-    };
-
     return (
-        <div className="App">
-            <header className="App-header">
-                <div className="logo" onClick={goToHomePage} style={{ cursor: 'pointer' }}>
+        <div className={styles.App}>
+            <header className={styles.header}>
+                <div className={styles.logo} onClick={goToHomePage} style={{ cursor: 'pointer' }}>
                     <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Breezely Logo" />
                 </div>
             </header>
 
-            <div className="container">
+            <div className={styles.container}>
                 {!view && (
                     <>
-                        <div className="search-bar">
+                        <div className={styles.searchBar}>
                             <input
                                 type="text"
                                 value={city}
@@ -49,15 +49,15 @@ function App() {
                             <button onClick={handleSearch}>Search</button>
                         </div>
 
-                        <div className="view-selection">
+                        <div className={styles.viewSelection}>
                             <h2>What would you like to do?</h2>
-                            <div className="view-selection-buttons">
+                            <div className={styles.viewSelectionButtons}>
                                 <button onClick={() => handleViewChange('singleCity')}>Get Weather for One City</button>
                                 <button onClick={() => handleViewChange('comparison')}>Compare Weather in Multiple Cities</button>
                             </div>
                         </div>
 
-                        <FeaturedCities onCityClick={handleCityClick} /> {/* Ensure this prop is passed */}
+                        <FeaturedCities onCityClick={handleCityClick} />
                         <FavoriteCities />
                     </>
                 )}
@@ -66,7 +66,7 @@ function App() {
                 {view === 'comparison' && <WeatherComparison onBack={() => setView(null)} />}
             </div>
 
-            <footer>
+            <footer className={styles.footer}>
                 <p>© 2024 Breezely | Contact Us | Privacy Policy</p>
             </footer>
         </div>

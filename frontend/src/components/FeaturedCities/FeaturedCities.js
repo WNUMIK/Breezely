@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Lottie from 'react-lottie-player';
-import sunAnimation from './animations/sun.json';
-import rainAnimation from './animations/rain.json';
-import cloudAnimation from './animations/cloud.json';
+import sunAnimation from '../animations/sun.json';
+import rainAnimation from '../animations/rain.json';
+import cloudAnimation from '../animations/cloud.json';
+import styles from './FeaturedCities.module.css'; // Import CSS module
 
-const FeaturedCities = ({onCityClick}) => {
+const FeaturedCities = ({ onCityClick }) => {
     const [featuredCitiesWeather, setFeaturedCitiesWeather] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [myDestinations, setMyDestinations] = useState(JSON.parse(localStorage.getItem('myDestinations')) || []);
-
 
     const popularCities = ['New York', 'Tokyo', 'Paris', 'London', 'Berlin'];
 
@@ -18,13 +18,15 @@ const FeaturedCities = ({onCityClick}) => {
         const fetchFeaturedCitiesWeather = async () => {
             try {
                 const weatherPromises = popularCities.map((city) =>
-                    axios.get(`http://127.0.0.1:5000/api/weather`, {params: {city}})
+                    axios.get(`http://127.0.0.1:5000/api/weather`, { params: { city } })
                 );
                 const weatherData = await Promise.all(weatherPromises);
-                setFeaturedCitiesWeather(weatherData.map((response, index) => ({
-                    city: popularCities[index],
-                    ...response.data.current_weather
-                })));
+                setFeaturedCitiesWeather(
+                    weatherData.map((response, index) => ({
+                        city: popularCities[index],
+                        ...response.data.current_weather,
+                    }))
+                );
                 setLoading(false);
             } catch (err) {
                 setError("Error fetching weather data for featured cities");
@@ -45,14 +47,6 @@ const FeaturedCities = ({onCityClick}) => {
         }
     };
 
-    if (loading) {
-        return <p>Loading featured cities...</p>;
-    }
-
-    if (error) {
-        return <p>{error}</p>;
-    }
-
     const addDestination = (city) => {
         if (!myDestinations.includes(city)) {
             const updatedDestinations = [...myDestinations, city];
@@ -61,24 +55,32 @@ const FeaturedCities = ({onCityClick}) => {
         }
     };
 
+    if (loading) {
+        return <p>Loading featured cities...</p>;
+    }
+
+    if (error) {
+        return <p>{error}</p>;
+    }
+
     return (
-        <div className="featured-cities">
+        <div className={styles.featuredCities}>
             {featuredCitiesWeather.map((weather, index) => (
                 <div
-                    className="city-tile"
+                    className={styles.cityCard}
                     key={index}
-                    onClick={() => onCityClick(weather.city)} // Call onCityClick when a city tile is clicked
-                    style={{cursor: 'pointer'}} // Add cursor pointer for clickability
+                    onClick={() => onCityClick(weather.city)}
+                    style={{ cursor: 'pointer' }}
                 >
-                    <h4>{weather.city}</h4>
+                    <h4 className={styles.cityTitle}>{weather.city}</h4>
                     <Lottie
                         loop
                         animationData={getWeatherAnimation(weather.description)}
                         play
-                        style={{width: 80, height: 80, margin: "0 auto"}}
+                        style={{ width: 80, height: 80, margin: '0 auto' }}
                     />
-                    <p>Temperature: {weather.temperature}°C</p>
-                    <p>{weather.description}</p>
+                    <p className={styles.cityTemperature}>Temperature: {weather.temperature}°C</p>
+                    <p className={styles.cityDescription}>{weather.description}</p>
                 </div>
             ))}
         </div>
