@@ -102,7 +102,6 @@ def weather():
         return jsonify({'error': 'Unable to fetch forecast data'}), 500
     forecast_data = forecast_response.json()
 
-    # Process forecast data as needed
     forecast_summary = []
     seen_dates = set()
     for forecast in forecast_data['list']:
@@ -118,11 +117,9 @@ def weather():
                 'precipitation': forecast.get('rain', {}).get('3h', 0) + forecast.get('snow', {}).get('3h', 0)
             })
 
-    # Example season and suggestions
     season = "Summer"
     suggestions = ["Wear light clothing", "Stay hydrated"]
 
-    # Include lat and lon in the response
     return jsonify({
         'city': city,
         'current_weather': {
@@ -131,8 +128,8 @@ def weather():
             'humidity': current_weather['main']['humidity'],
             'wind_speed': current_weather['wind']['speed']
         },
-        'lat': coordinates['lat'],  # Add lat to response
-        'lon': coordinates['lon'],  # Add lon to response
+        'lat': coordinates['lat'],  # Ensure coordinates are added here
+        'lon': coordinates['lon'],  # Ensure coordinates are added here
         'forecast': forecast_summary,
         'season': season,
         'suggestions': suggestions
