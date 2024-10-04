@@ -110,8 +110,13 @@ function SingleCityWeather({city, onBack}) {
             <div className={styles.headerButtonsRow}>
                 <button className={styles.backButton} onClick={onBack}>Back</button>
                 <div className={styles.inputSection}>
-                    <input className={styles.inputField} type="text" placeholder="Enter city" value={currentCity}
-                           onChange={(e) => setCurrentCity(e.target.value)}/>
+                    <input
+                        className={styles.inputField}
+                        type="text"
+                        placeholder="Enter city"
+                        value={currentCity}
+                        onChange={(e) => setCurrentCity(e.target.value)}
+                    />
                     <button className={styles.inputButton} onClick={handleSearch}>Search</button>
                 </div>
                 <button className={styles.favoriteButton} onClick={saveFavoriteCity}
@@ -120,26 +125,25 @@ function SingleCityWeather({city, onBack}) {
                 </button>
             </div>
 
-            {loading && <p>Loading...</p>}
+            {loading && <div className={styles.loadingSpinner}></div>}
+
             {error && <p className={styles.error}>{error}</p>}
 
             {weatherData && (
                 <div className={styles.weatherDashboard}>
                     <div className={styles.weatherCard}>
                         <h3>Current Weather in {currentCity}</h3>
-                        <p>{weatherData.temperature}°C</p>
-                        <p>{weatherData.description}</p>
-                        <p>Humidity: {weatherData.humidity}%</p>
-                        <p>Wind Speed: {weatherData.wind_speed} m/s</p>
-                        <p>Season: {season}</p>
+                        <p><span className={styles.weatherCardIcon}>🌡️</span>
+                            <strong>{weatherData.temperature}°C</strong></p>
+                        <p><span className={styles.weatherCardIcon}>🌧️</span> {weatherData.description}</p>
+                        <p><span
+                            className={styles.weatherCardIcon}>💧</span> Humidity: <strong>{weatherData.humidity}%</strong>
+                        </p>
+                        <p><span className={styles.weatherCardIcon}>🌬️</span> Wind
+                            Speed: <strong>{weatherData.wind_speed} m/s</strong></p>
+                        <p><span className={styles.weatherCardIcon}>🍂</span> Season: {season}</p>
                     </div>
-
-                    <div className={styles.weatherAnimation}>
-                        <Lottie loop animationData={getWeatherAnimation(weatherData.description)} play
-                                style={{width: '100px', height: '100px'}}/>
-                    </div>
-
-                    <div className={styles.suggestions}>
+                    <div className={styles.suggestionsCard}>
                         <h4>Suggestions</h4>
                         <ul>
                             {suggestions.map((suggestion, index) => (
@@ -149,9 +153,11 @@ function SingleCityWeather({city, onBack}) {
                     </div>
 
                     <div className={styles.weatherMap}>
-                        <h4>Map of {currentCity}</h4>
-                        <MapContainer center={[coordinates.lat, coordinates.lon]} zoom={10}
-                                      style={{height: "300px", width: "300px"}}>
+                        <MapContainer
+                            center={[coordinates.lat, coordinates.lon]}
+                            zoom={10}
+                            style={{height: "350px", width: "100%"}} /* Adjust the size */
+                        >
                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                             <Marker position={[coordinates.lat, coordinates.lon]}>
                                 <Popup>Weather data for {currentCity}</Popup>
@@ -160,20 +166,43 @@ function SingleCityWeather({city, onBack}) {
                     </div>
                     <div className={styles.forecastData}>
                         <h4>Forecast Weather for {currentCity}</h4>
+
                         {forecastData && (
                             <div className={styles.forecastCards}>
-                                {forecastData.map((forecast, index) => (
-                                    <div key={index} className={styles.forecastCardContainer}>
-                                        <h5>{forecast.date}</h5>
-                                        <p>Temperature: {forecast.temperature}°C</p>
-                                        <p>Description: {forecast.description}</p>
-                                        <p>Humidity: {forecast.humidity}%</p>
-                                        <p>Wind Speed: {forecast.wind_speed} m/s</p>
-                                    </div>
-                                ))}
+                                {forecastData.map((forecast, index) => {
+                                    // Convert date to a human-readable day of the week
+                                    const dateObj = new Date(forecast.date);
+                                    const dayName = dateObj.toLocaleDateString('en-US', {weekday: 'long'});
+
+                                    return (
+                                        <div key={index} className={styles.forecastCardContainer}>
+                                            <h5>{dateObj.toLocaleDateString()}</h5>
+                                            <p className={styles.dayName}>{dayName}</p> {/* Display the day name */}
+                                            <div className={styles.infoRow}>
+                                                <p><span className={styles.icon}>🌡️</span>
+                                                    <strong>{forecast.temperature}°C</strong></p>
+                                                <p><span
+                                                    className={styles.icon}>💧</span> Humidity: <strong>{forecast.humidity}%</strong>
+                                                </p>
+                                            </div>
+                                            <div className={styles.infoRow}>
+                                                <p><span className={styles.icon}>🌬️</span> Wind
+                                                    Speed: <strong>{forecast.wind_speed} m/s</strong></p>
+                                                <p><span className={styles.icon}>☁️</span> {forecast.description}</p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        {forecastData && (
+                            <div className={styles.chartContainer}>
+                                <WeatherChart weather={{forecast: forecastData}}/>
                             </div>
                         )}
                     </div>
+
                 </div>
             )}
 
