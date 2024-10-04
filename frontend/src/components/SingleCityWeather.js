@@ -6,7 +6,9 @@ import Lottie from 'react-lottie-player';
 import sunAnimation from './animations/sun.json';
 import rainAnimation from './animations/rain.json';
 import cloudAnimation from './animations/cloud.json';
-import '../css/styles.css';  // Import the updated CSS for styling
+import '../css/styles.css'; // Custom styling
+import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
 function SingleCityWeather({city, onBack}) {
     const [currentCity, setCurrentCity] = useState(city);
@@ -14,12 +16,15 @@ function SingleCityWeather({city, onBack}) {
     const [forecastData, setForecastData] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [isFavorite, setIsFavorite] = useState(false); // New state for favorite status
-    const [favoriteButtonText, setFavoriteButtonText] = useState('Save as Favorite'); // Button text state
-    const [favoriteButtonColor, setFavoriteButtonColor] = useState('#eee8aa'); // Initial color
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [favoriteButtonText, setFavoriteButtonText] = useState('Save as Favorite');
+    const [favoriteButtonColor, setFavoriteButtonColor] = useState('#eee8aa');
 
-    const [season, setSeason] = useState(''); // New state for season
-    const [suggestions, setSuggestions] = useState([]); // New state for suggestions
+    const [season, setSeason] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+
+    // New state to hold location coordinates
+    const [coordinates, setCoordinates] = useState(null); // Default to null to avoid undefined errors
 
     useEffect(() => {
         const fetchWeatherData = async () => {
@@ -31,12 +36,17 @@ function SingleCityWeather({city, onBack}) {
                     const response = await axios.get(`http://127.0.0.1:5000/api/weather`, {params: {city: currentCity}});
                     setWeatherData(response.data.current_weather);
                     setForecastData(response.data.forecast);
-
-                    // Set season and suggestions
                     setSeason(response.data.season);
                     setSuggestions(response.data.suggestions);
 
-                    setError(''); // Clear error if data is successfully fetched
+                    // Check for lat/lon in the response
+                    if (response.data.lat && response.data.lon) {
+                        setCoordinates({lat: response.data.lat, lon: response.data.lon});
+                    } else {
+                        setCoordinates(null);  // Fallback if no coordinates available
+                    }
+
+                    setError('');
                 } catch (err) {
                     setError('City not found. Please try again.');
                     setWeatherData(null);
@@ -50,19 +60,16 @@ function SingleCityWeather({city, onBack}) {
         fetchWeatherData();
     }, [currentCity]);
 
+
     const getWeatherAnimation = (description) => {
-        if (description.includes('clear')) {
-            return sunAnimation;
-        } else if (description.includes('rain')) {
-            return rainAnimation;
-        } else if (description.includes('cloud')) {
-            return cloudAnimation;
-        }
+        if (description.includes('clear')) return sunAnimation;
+        if (description.includes('rain')) return rainAnimation;
+        if (description.includes('cloud')) return cloudAnimation;
     };
 
     const handleSearch = () => {
         if (currentCity.trim()) {
-            setCurrentCity(currentCity); // Update the city state
+            setCurrentCity(currentCity);
         }
     };
 
@@ -70,43 +77,32 @@ function SingleCityWeather({city, onBack}) {
         const favorites = JSON.parse(localStorage.getItem('favoriteCities')) || [];
 
         if (!isFavorite) {
-            // If not currently a favorite, add it
             favorites.push(currentCity);
             localStorage.setItem('favoriteCities', JSON.stringify(favorites));
-            setIsFavorite(true); // Update state to reflect city is a favorite
-            setFavoriteButtonText('Added as Favorite'); // Change button text
-            setFavoriteButtonColor('#98FB98'); // Light green color
+            setIsFavorite(true);
+            setFavoriteButtonText('Added as Favorite');
+            setFavoriteButtonColor('#98FB98');
         } else {
-            // If it is a favorite, remove it
             const updatedFavorites = favorites.filter(favCity => favCity !== currentCity);
             localStorage.setItem('favoriteCities', JSON.stringify(updatedFavorites));
-            setIsFavorite(false); // Update state to reflect city is no longer a favorite
-            setFavoriteButtonText('Save as Favorite'); // Change button text back
-            setFavoriteButtonColor('#eee8aa'); // Reset to original color
+            setIsFavorite(false);
+            setFavoriteButtonText('Save as Favorite');
+            setFavoriteButtonColor('#eee8aa');
         }
     };
 
     return (
-        <div>
+        <div className="dashboard">
             <div className="header-buttons-row">
-                <button className="back-button" onClick={onBack}>
-                    Back
-                </button>
+                <button className="back-button" onClick={onBack}>Back</button>
                 <div className="input-section">
-                    <input
-                        type="text"
-                        placeholder="Enter city"
-                        value={currentCity}
-                        onChange={(e) => setCurrentCity(e.target.value)}
-                    />
+                    <input type="text" placeholder="Enter city" value={currentCity}
+                           onChange={(e) => setCurrentCity(e.target.value)}/>
                     <button className="input-section-button" onClick={handleSearch}>Search</button>
                 </div>
-                <button
-                    className="favorite-button"
-                    onClick={saveFavoriteCity}
-                    style={{backgroundColor: favoriteButtonColor}} // Set dynamic background color
-                >
-                    {favoriteButtonText} {/* Change button text */}
+                <button className="favorite-button" onClick={saveFavoriteCity}
+                        style={{backgroundColor: favoriteButtonColor}}>
+                    {favoriteButtonText}
                 </button>
             </div>
 
@@ -114,14 +110,14 @@ function SingleCityWeather({city, onBack}) {
             {error && <p className="error">{error}</p>}
 
             {weatherData && (
-                <div className="weather-card">
-                    <div className="weather-details">
+                <div className="weather-dashboard">
+                    <div className="weather-card card">
                         <h3>Current Weather in {currentCity}</h3>
                         <p>{weatherData.temperature}°C</p>
                         <p>{weatherData.description}</p>
                         <p>Humidity: {weatherData.humidity}%</p>
                         <p>Wind Speed: {weatherData.wind_speed} m/s</p>
-                        <p>Season: {season}</p> {/* Display season */}
+                        <p>Season: {season}</p>
                         {suggestions && suggestions.length > 0 && (
                             <ul>
                                 {suggestions.map((suggestion, index) => (
@@ -130,22 +126,35 @@ function SingleCityWeather({city, onBack}) {
                             </ul>
                         )}
                     </div>
-                    <div className="weather-animation">
-                        <Lottie
-                            loop
-                            animationData={getWeatherAnimation(weatherData.description)}
-                            play
-                            style={{width: '150px', height: '150px'}} // Adjust size as needed
-                        />
-                    </div>
-                </div>
-            )}
 
-            {forecastData && (
-                <>
-                    <WeatherChart weather={{forecast: forecastData}}/>
-                    <ForecastCard forecast={forecastData}/>
-                </>
+                    <div className="weather-animation card">
+                        <Lottie loop animationData={getWeatherAnimation(weatherData.description)} play
+                                style={{width: '150px', height: '150px'}}/>
+                    </div>
+
+                    {forecastData && (
+                        <div className="forecast-chart card">
+                            <WeatherChart weather={{forecast: forecastData}}/>
+                        </div>
+                    )}
+
+                    {coordinates && (
+                        <MapContainer center={[coordinates.lat, coordinates.lon]} zoom={10}
+                                      style={{height: "300px", width: "100%"}}>
+                            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                            <Marker position={[coordinates.lat, coordinates.lon]}>
+                                <Popup>Weather data for {currentCity}</Popup>
+                            </Marker>
+                        </MapContainer>
+                    )}
+
+
+                    {forecastData && (
+                        <div className="forecast-card-container card">
+                            <ForecastCard forecast={forecastData}/>
+                        </div>
+                    )}
+                </div>
             )}
         </div>
     );

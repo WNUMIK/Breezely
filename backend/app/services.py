@@ -1,10 +1,10 @@
 import requests
 from .config import Config
-import datetime
 
 CURRENT_WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
 FORECAST_URL = "http://api.openweathermap.org/data/2.5/forecast"
-GEOCODE_URL = "http://api.openweathermap.org/geo/1.0/reverse"
+GEOCODE_URL_OPENWEATHER = "http://api.openweathermap.org/geo/1.0/reverse"
+GEOCODE_URL_OPENCAGE = "https://api.opencagedata.com/geocode/v1/json"  # New API URL
 
 def get_current_weather(city):
     response = requests.get(CURRENT_WEATHER_URL, params={
@@ -22,8 +22,22 @@ def get_forecast(city):
     })
     return response.json() if response.status_code == 200 else None
 
+# Function to get city coordinates using OpenCage
+def get_city_from_opencage(city_name):
+    response = requests.get(GEOCODE_URL_OPENCAGE, params={
+        'q': city_name,
+        'key': Config.OPENCAGE_API_KEY,  # Use the new API key
+        'limit': 1
+    })
+    if response.status_code == 200 and response.json()['results']:
+        coordinates = response.json()['results'][0]['geometry']
+        return coordinates
+    return None
+
+# Modify this to fallback to OpenCage when OpenWeather fails
 def get_city_from_geo(lat, lon):
-    response = requests.get(GEOCODE_URL, params={
+    # Use OpenWeather for reverse geocoding first
+    response = requests.get(GEOCODE_URL_OPENWEATHER, params={
         'lat': lat,
         'lon': lon,
         'appid': Config.API_KEY,
@@ -31,44 +45,4 @@ def get_city_from_geo(lat, lon):
     })
     if response.status_code == 200 and response.json():
         return response.json()[0].get('name')
-    return None
-
-
-def get_season(lat, lon):
-    month = datetime.now().month
-    hemisphere = "north" if float(lat) >= 0 else "south"
-
-    if hemisphere == "north":
-        if month in [12, 1, 2]:
-            return "winter"
-        elif month in [3, 4, 5]:
-            return "spring"
-        elif month in [6, 7, 8]:
-            return "summer"
-        else:
-            return "fall"
-    else:
-        if month in [12, 1, 2]:
-            return "summer"
-        elif month in [3, 4, 5]:
-            return "fall"
-        elif month in [6, 7, 8]:
-            return "winter"
-        else:
-            return "spring"
-
-def get_suggestions(temperature, weather_condition):
-    suggestions = []
-    if temperature < 10:
-        suggestions.append("Wear a warm coat")
-    elif 10 <= temperature < 20:
-        suggestions.append("Wear a jacket or sweater")
-    else:
-        suggestions.append("Wear light clothing")
-
-    if "rain" in weather_condition:
-        suggestions.append("Carry an umbrella")
-    elif "snow" in weather_condition:
-        suggestions.append("Dress warmly and wear snow boots")
-
-    return suggestions
+    return None  # Fallback to OpenCage if OpenWeather fails

@@ -128,15 +128,28 @@ button:focus {
     font-size: 16px;
 }
 
+/* General dashboard layout */
+.dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Card component styling */
 .card {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-basis: 48%;
     margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+}
+
+/* Larger cards for charts and maps */
+.forecast-chart, .weather-map {
+    flex-basis: 100%; /* Full width for charts and maps */
 }
 
 .card:hover {

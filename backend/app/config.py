@@ -6,3 +6,4 @@ load_dotenv(os.path.join(basedir, '../.env'))
 
 class Config:
     API_KEY = os.getenv('API_KEY')
+    OPENCAGE_API_KEY=os.getenv('OPENCAGE_API_KEY')

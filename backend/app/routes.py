@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from .services import get_current_weather, get_forecast, get_city_from_geo
+from .services import get_current_weather, get_forecast, get_city_from_geo, get_city_from_opencage
 
 api = Blueprint('api', __name__)
 
@@ -34,6 +34,11 @@ def weather():
                 'precipitation': forecast.get('rain', {}).get('3h', 0) + forecast.get('snow', {}).get('3h', 0)
             })
 
+    # Get coordinates from OpenCage if OpenWeather fails
+    city_coords = get_city_from_opencage(city)
+    if not city_coords:
+        return jsonify({'error': 'Unable to fetch coordinates'}), 404
+
     return jsonify({
         'city': city,
         'current_weather': {
@@ -42,19 +47,7 @@ def weather():
             'humidity': current_weather['main']['humidity'],
             'wind_speed': current_weather['wind']['speed']
         },
+        'lat': city_coords['lat'],
+        'lon': city_coords['lng'],
         'forecast': forecast_summary
     })
-
-@api.route('/api/geo', methods=['GET'])
-def geo():
-    lat = request.args.get('lat')
-    lon = request.args.get('lon')
-
-    if not lat or not lon:
-        return jsonify({'error': 'Latitude and longitude are required'}), 400
-
-    city = get_city_from_geo(lat, lon)
-    if not city:
-        return jsonify({'error': 'Unable to find city for the provided coordinates'}), 404
-
-    return jsonify({'city': city})
