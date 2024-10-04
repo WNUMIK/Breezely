@@ -1,126 +1,99 @@
 
-# Breezely Weather App
+# Breezely 🌤️
 
-Breezely is a dynamic weather forecasting application built with a modern tech stack. It allows users to fetch weather details for a single city, compare the weather in multiple cities, and view featured popular cities' weather dynamically. Breezely is a demonstration of using React with Flask for a seamless frontend-backend integration.
+**Breezely** is a weather application that combines **React** on the frontend and **Flask** on the backend to deliver real-time weather updates, city comparisons, and interactive weather animations. This project follows a modular and scalable architecture, making it easy to develop further.
 
-## Features
+## ✨ Features
 
-1. **Single City Weather**: 
-   - Users can input a city name and retrieve the current weather conditions, 5-day weather forecast, and a temperature trend chart.
-   - The weather details include temperature, weather description, humidity, and wind speed.
-   
-2. **Weather Comparison**: 
-   - Allows users to compare weather in multiple cities side by side.
-   - The comparison provides real-time weather data such as temperature, humidity, and description for each selected city.
+- 🌍 **Real-Time Weather**: Get current weather for any city worldwide.
+- 🏙️ **Weather Comparison**: Compare weather data across multiple cities.
+- 🌟 **Favorite Cities**: Add and manage favorite cities with dynamic updates.
+- ✨ **Featured Cities**: Automatically displays weather data for popular cities.
+- 🎞️ **Weather Animations**: Animated weather icons using Lottie.
+- 📱 **Responsive Design**: Optimized for both mobile and desktop devices.
 
-3. **Featured Cities**:
-   - Displays the current weather for popular cities (e.g., New York, Tokyo, Paris, etc.).
-   - This data is fetched dynamically from a weather API upon page load.
+## 🛠️ Tech Stack
 
-4. **Interactive Chart**:
-   - The app features an interactive chart that shows temperature trends over five days for a selected city. The chart also includes humidity and precipitation.
+- **Frontend**: React, CSS Modules, Lottie Animations
+- **Backend**: Flask, Python
+- **API**: OpenWeatherMap API for weather data
 
-5. **Responsive Design**:
-   - The application is mobile-friendly and adapts to different screen sizes.
-   
-## Installation and Setup
+## 📂 Project Structure
 
-To set up and run this project locally, follow these steps:
+```bash
+Breezely-master/
+│
+├── backend/                  # Flask backend
+│   ├── app/                  # Main application files (Flask)
+│   ├── tests/                # Backend tests
+│   └── wsgi.py               # WSGI entry point
+│
+├── frontend/                 # React frontend
+│   ├── public/               # Static public files
+│   ├── src/                  # Source code for React components
+│   ├── package.json          # Frontend dependencies
+│   └── README.md             # Frontend documentation
+│
+├── .gitignore                # Git ignore rules
+├── Pipfile                   # Python dependencies
+├── run.sh                    # Shell script to run the project
+└── README.md                 # Project documentation
+```
 
-### Backend (Flask API)
+## 🚀 Installation
 
 1. **Clone the repository**:
+
    ```bash
-   git clone https://github.com/wnumik/breezely.git
+   git clone https://github.com/WNUMIK/Breezely.git
+   cd Breezely-master
    ```
 
-2. **Navigate to the backend directory**:
+### Backend Setup
+
+2. **Set up the backend environment and install dependencies**:
+
    ```bash
    cd backend
-   ```
-
-3. **Install dependencies**:
-   We are using `pipenv` to manage dependencies. Install them by running:
-   ```bash
+   pip install pipenv
    pipenv install
    ```
 
-4. **Create a `.env` file** in the `backend/app` directory and add your API key for the weather API:
-   ```
-   API_KEY=your_openweather_api_key
+3. **Create a `.env` file** in the `backend/` directory with your API keys:
+
+   ```env
+   WEATHER_API_KEY=your_openweathermap_api_key
    ```
 
-5. **Run the Flask app**:
+4. **Run the backend server**:
+
    ```bash
    flask run
    ```
 
-### Frontend (React)
+### Frontend Setup
 
-1. **Navigate to the frontend directory**:
+5. **Set up the frontend and install dependencies**:
+
    ```bash
    cd frontend
-   ```
-
-2. **Install dependencies**:
-   Run the following command to install the required Node.js packages:
-   ```bash
    npm install
    ```
 
-3. **Start the React frontend**:
+6. **Run the frontend development server**:
+
    ```bash
    npm start
    ```
 
-## Project Structure
+   The frontend will be accessible at **`http://localhost:3000`** and the backend at **`http://localhost:5000`**.
 
-```plaintext
-Breezely/
-├── backend/
-│   ├── app/
-│   │   ├── __init__.py
-│   │   ├── config.py
-│   │   ├── routes.py
-│   │   ├── services.py
-│   │   └── .env
-│   ├── wsgi.py
-├── frontend/
-│   ├── public/
-│   │   ├── favicon.ico
-│   │   ├── index.html
-│   │   ├── logo.png
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── css/
-│   │   │   ├── CurrentWeatherCard.js
-│   │   │   ├── ForecastCard.js
-│   │   │   ├── SingleCityWeather.js
-│   │   │   ├── WeatherChart.js
-│   │   │   ├── WeatherComparison.js
-│   │   │   ├── WeatherInput.js
-│   │   ├── App.js
-│   │   ├── App.css
-│   │   ├── index.js
-├── README.md
-```
+## 🌱 Future Enhancements
 
-## Technologies Used
+- 🔐 **User Authentication**: Allow users to log in and save favorite cities.
+- 📍 **Geolocation Support**: Automatically detect user location for local weather.
+- 📅 **Extended Forecast**: Provide a 7-day weather forecast for cities.
 
-- **Frontend**: React, Chart.js
-- **Backend**: Flask, Python
-- **API**: OpenWeatherMap API for weather data
-- **Styling**: CSS with responsiveness
-- **Data Fetching**: Axios (in React), requests (in Flask)
-- **Virtual Environment**: pipenv for Python, npm for Node
+## 📄 License
 
-## Future Improvements
-
-1. **User Authentication**: Add login functionality for users to save favorite cities or locations.
-2. **Advanced Weather Data**: Include more detailed weather information, such as sunrise/sunset times and UV index.
-3. **PWA**: Turn the app into a Progressive Web App (PWA) for offline functionality.
-4. **Geolocation**: Automatically detect user's location and show weather accordingly.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the **MIT License**.
