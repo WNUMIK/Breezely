@@ -1,0 +1,128 @@
+.header-buttons-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    gap: 15px; /* Spacing between elements */
+}
+
+.header-buttons-row .back-button,
+.header-buttons-row .favorite-button {
+    flex: 1; /* Give both buttons equal width */
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+}
+
+.header-buttons-row .back-button {
+    background-color: #87CEEB;
+    color: white;
+}
+
+.header-buttons-row .input-section {
+    flex: 3; /* Makes the input section wider */
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.header-buttons-row .input-section input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.header-buttons-row .input-section-button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    background-color: #6495ED;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.header-buttons-row .favorite-button {
+    background-color: #eee8aa;
+    color: black;
+}
+
+/* Updated Styles for Weather Dashboard */
+
+.weather-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.weather-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.weather-details, .suggestions, .weather-animation {
+  flex: 1;  /* Make each card take up equal width */
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.weather-details {
+  text-align: left;
+}
+
+.suggestions {
+  text-align: left;
+}
+
+.weather-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.forecast-chart,
+.weather-map {
+  margin-top: 20px;
+}
+
+.suggestions h3 {
+  margin-bottom: 10px;
+  color: #2E3B4E;  /* Darker color to make the title stand out */
+  font-weight: 700;
+}
+
+
+@media (max-width: 768px) {
+    .header-buttons-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-buttons-row button,
+    .header-buttons-row input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .header-buttons-row .input-section {
+        margin-bottom: 10px;
+    }
+}

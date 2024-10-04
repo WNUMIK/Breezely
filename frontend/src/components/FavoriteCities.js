@@ -4,7 +4,6 @@ import Lottie from 'react-lottie-player';
 import sunAnimation from './animations/sun.json';
 import rainAnimation from './animations/rain.json';
 import cloudAnimation from './animations/cloud.json';
-import emptyIcon from './icon/emptyIcon.webp'; // Placeholder for empty state icon
 
 const FavoriteCities = () => {
     const [favoriteCities, setFavoriteCities] = useState(JSON.parse(localStorage.getItem('favoriteCities')) || []);
