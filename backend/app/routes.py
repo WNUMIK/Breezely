@@ -26,35 +26,32 @@ def get_city_coordinates(city_name):
 def determine_season(lat, lon):
     """
     Determine the current season based on the latitude and current month.
-    Northern Hemisphere:
-        Spring: March 1 – May 31
-        Summer: June 1 – August 31
-        Autumn: September 1 – November 30
-        Winter: December 1 – February 28/29
-    Southern Hemisphere:
-        Spring: September 1 – November 30
-        Summer: December 1 – February 28/29
-        Autumn: March 1 – May 31
-        Winter: June 1 – August 31
+    This function includes specific considerations for equatorial and near-equatorial regions.
     """
-    hemisphere = 'northern' if lat >= 0 else 'southern'
+    # Determine hemisphere based on latitude
+    hemisphere = 'northern' if lat > 0 else 'southern'
     current_month = datetime.utcnow().month
 
+    # Handle equatorial regions separately
+    if -10 <= lat <= 10:  # Consider latitudes close to the equator
+        return "Tropical Season (likely Wet or Dry depending on location)"
+
+    # Determine season for non-equatorial regions
     if hemisphere == 'northern':
-        if 3 <= current_month <= 5:
+        if current_month in [3, 4, 5]:
             return 'Spring'
-        elif 6 <= current_month <= 8:
+        elif current_month in [6, 7, 8]:
             return 'Summer'
-        elif 9 <= current_month <= 11:
+        elif current_month in [9, 10, 11]:
             return 'Autumn'
         else:
             return 'Winter'
     else:
-        if 9 <= current_month <= 11:
+        if current_month in [9, 10, 11]:
             return 'Spring'
-        elif 12 <= current_month or current_month <= 2:
+        elif current_month in [12, 1, 2]:
             return 'Summer'
-        elif 3 <= current_month <= 5:
+        elif current_month in [3, 4, 5]:
             return 'Autumn'
         else:
             return 'Winter'
@@ -82,6 +79,10 @@ def weather():
     if not coordinates:
         return jsonify({'error': 'Unable to fetch coordinates'}), 404
 
+    # Extract latitude and longitude
+    lat = coordinates['lat']
+    lon = coordinates['lon']
+
     # Fetch current weather
     current_weather_response = requests.get(CURRENT_WEATHER_URL, params={
         'q': city,
@@ -102,6 +103,7 @@ def weather():
         return jsonify({'error': 'Unable to fetch forecast data'}), 500
     forecast_data = forecast_response.json()
 
+    # Extract and summarize the forecast data
     forecast_summary = []
     seen_dates = set()
     for forecast in forecast_data['list']:
@@ -117,8 +119,9 @@ def weather():
                 'precipitation': forecast.get('rain', {}).get('3h', 0) + forecast.get('snow', {}).get('3h', 0)
             })
 
-    season = "Summer"
-    suggestions = ["Wear light clothing", "Stay hydrated"]
+    # Determine the current season based on latitude and month
+    season = determine_season(lat, lon)
+    suggestions = get_suggestions(season)
 
     return jsonify({
         'city': city,
@@ -128,8 +131,8 @@ def weather():
             'humidity': current_weather['main']['humidity'],
             'wind_speed': current_weather['wind']['speed']
         },
-        'lat': coordinates['lat'],  # Ensure coordinates are added here
-        'lon': coordinates['lon'],  # Ensure coordinates are added here
+        'lat': lat,  # Ensure coordinates are added here
+        'lon': lon,  # Ensure coordinates are added here
         'forecast': forecast_summary,
         'season': season,
         'suggestions': suggestions

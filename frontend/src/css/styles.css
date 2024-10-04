@@ -13,7 +13,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-color: #2E3B4E;
+    background-color: #6495ED;
     color: white;
 }
 
@@ -50,7 +50,7 @@ footer {
     bottom: 0;
     left: 0;
     padding: 20px;
-    background-color: #2E3B4E;
+    background-color: #6495ED;
     color: white;
     text-align: center;
 }
@@ -58,7 +58,7 @@ footer {
 /* Button Styling */
 button {
     padding: 10px 20px;
-    background-color: #4E8098; /* Bold teal */
+    background-color: #6495ED; /* Bold teal */
     color: white;
     border: none;
     border-radius: 4px; /* Subtle rounded corners */
@@ -203,7 +203,7 @@ button:focus {
 
 .search-bar button {
     padding: 12px 20px;
-    background-color: #4E8098;
+    background-color: #6495ED;
     color: white;
     border: none;
     border-radius: 0 5px 5px 0;

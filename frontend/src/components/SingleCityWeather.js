@@ -122,8 +122,8 @@ function SingleCityWeather({city, onBack}) {
                         {/* Weather details */}
                         <div className="weather-details card">
                             <h3>Current Weather in {currentCity}</h3>
-                            <p>{weatherData.temperature}°C</p>
-                            <p>{weatherData.description}</p>
+                            <p>Temperature: {weatherData.temperature}°C</p>
+                            <p>Description: {weatherData.description}</p>
                             <p>Humidity: {weatherData.humidity}%</p>
                             <p>Wind Speed: {weatherData.wind_speed} m/s</p>
                             <p>Season: {season}</p>
@@ -132,7 +132,7 @@ function SingleCityWeather({city, onBack}) {
                         {/* Weather animation */}
                         <div className="weather-animation card">
                             <Lottie loop animationData={getWeatherAnimation(weatherData.description)} play
-                                    style={{width: '150px', height: '150px'}}/>
+                                    style={{width: '200px', height: '200px'}}/>
                         </div>
 
                         {/* Suggestions Card */}
@@ -170,6 +170,7 @@ function SingleCityWeather({city, onBack}) {
                     {/* Forecast card */}
                     {forecastData && (
                         <div className="forecast-card-container card">
+                            <h4>Forecast Weather for {currentCity}</h4>
                             <ForecastCard forecast={forecastData}/>
                         </div>
                     )}
