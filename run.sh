@@ -1,3 +1,3 @@
 #!/bin/bash
-export FLASK_APP=backend/wsgi.py
-flask run
+export QUART_APP=backend/wsgi.py  # Specify the app location
+quart run --reload

@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify, request
-import requests
+from quart import Blueprint, jsonify, request
+import aiohttp
 from .config import Config
 from datetime import datetime
 
@@ -9,38 +9,39 @@ CURRENT_WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather"
 FORECAST_URL = "http://api.openweathermap.org/data/2.5/forecast"
 GEOCODE_URL_OPENCAGE = "https://api.opencagedata.com/geocode/v1/json"
 
-def reverse_geocode(lat, lon):
-    """
-    Reverse geocode lat and lon to get the city name using OpenCage API
-    """
+async def reverse_geocode(lat, lon):
+    """Reverse geocode lat and lon to get the city name using OpenCage API."""
     print(f"Reverse geocoding coordinates: lat={lat}, lon={lon}")
-    response = requests.get(GEOCODE_URL_OPENCAGE, params={
-        'q': f'{lat},{lon}',
-        'key': Config.OPENCAGE_API_KEY,
-        'limit': 1
-    })
-
-    if response.status_code == 200 and response.json()['results']:
-        # Extract city name from the response
-        city = response.json()['results'][0]['components'].get('city', 'Unknown City')
-        print(f"City found from reverse geocoding: {city}")
-        return city
-
-    print(f"Error reverse geocoding: {response.status_code}, {response.text}")
+    async with aiohttp.ClientSession() as session:
+        async with session.get(GEOCODE_URL_OPENCAGE, params={
+            'q': f'{lat},{lon}',
+            'key': Config.OPENCAGE_API_KEY,
+            'limit': 1
+        }) as response:
+            if response.status == 200:
+                data = await response.json()
+                if data['results']:
+                    city = data['results'][0]['components'].get('city', 'Unknown City')
+                    print(f"City found from reverse geocoding: {city}")
+                    return city
+    print(f"Error reverse geocoding: {response.status}, {await response.text()}")
     return None
 
-
-def get_city_coordinates(city_name):
-    print(f"Fetching coordinates for city: {city_name}")  # Log the city name
-    response = requests.get(GEOCODE_URL_OPENCAGE, params={
-        'q': city_name,
-        'key': Config.OPENCAGE_API_KEY,
-        'limit': 1
-    })
-    if response.status_code == 200 and response.json()['results']:
-        geometry = response.json()['results'][0]['geometry']
-        return {'lat': geometry['lat'], 'lon': geometry['lng']}
-    print(f"Error fetching coordinates: {response.status_code}, {response.text}")  # Log error details
+async def get_city_coordinates(city_name):
+    """Fetch coordinates for the city name."""
+    print(f"Fetching coordinates for city: {city_name}")
+    async with aiohttp.ClientSession() as session:
+        async with session.get(GEOCODE_URL_OPENCAGE, params={
+            'q': city_name,
+            'key': Config.OPENCAGE_API_KEY,
+            'limit': 1
+        }) as response:
+            if response.status == 200:
+                data = await response.json()
+                if data['results']:
+                    geometry = data['results'][0]['geometry']
+                    return {'lat': geometry['lat'], 'lon': geometry['lng']}
+    print(f"Error fetching coordinates: {response.status}, {await response.text()}")
     return None
 
 def determine_season(lat, lon):
@@ -70,30 +71,30 @@ def determine_season(lat, lon):
             return 'Winter'
 
 def get_suggestions(season):
-    suggestions = {
-        'Spring': ["Carry a light jacket", "Enjoy the blooming flowers"],
-        'Summer': ["Stay hydrated", "Wear sunscreen"],
-        'Autumn': ["Wear layers", "Prepare for cooler evenings"],
-        'Winter': ["Wear warm clothing", "Keep an umbrella handy"]
+    """Return clothing or activity suggestions based on the season."""
+    suggestions_map = {
+        "Summer": ["Wear light clothing", "Go swimming", "Drink lots of water"],
+        "Winter": ["Wear warm clothing", "Go skiing", "Drink hot beverages"],
+        "Spring": ["Wear a light jacket", "Enjoy outdoor picnics", "Watch flowers bloom"],
+        "Fall": ["Wear a sweater", "Go hiking", "Enjoy the fall foliage"],
+        "Tropical Season (likely Wet or Dry depending on location)": ["Carry an umbrella", "Wear light, breathable clothes"],
     }
-    return suggestions.get(season, ["Have a great day!"])
+    return suggestions_map.get(season, ["No specific suggestions available"])
 
 @api.route('/api/weather', methods=['GET'])
-def weather():
+async def weather():
     city = request.args.get('city')
     lat = request.args.get('lat')
     lon = request.args.get('lon')
 
-    # Log request details
     print(f"Received request: city={city}, lat={lat}, lon={lon}")
 
-    # If latitude and longitude are provided, validate them
     if lat and lon:
         try:
             lat = float(lat)
             lon = float(lon)
             print(f"Parsed coordinates: lat={lat}, lon={lon}")
-            city = reverse_geocode(lat, lon)  # Try to reverse geocode
+            city = await reverse_geocode(lat, lon)
             if not city:
                 print(f"Error: Reverse geocoding failed for lat={lat}, lon={lon}")
                 return jsonify({'error': 'Failed to reverse geocode location'}), 400
@@ -101,12 +102,10 @@ def weather():
             print(f"Invalid lat/lon: lat={lat}, lon={lon}")
             return jsonify({'error': 'Invalid latitude or longitude'}), 400
     else:
-        # Handle city-based requests
         if not city:
             return jsonify({'error': 'City or coordinates are required'}), 400
 
-        # Get coordinates using OpenCage API if the city is provided
-        coordinates = get_city_coordinates(city)
+        coordinates = await get_city_coordinates(city)
         if not coordinates:
             print(f"Error: Unable to fetch coordinates for city: {city}")
             return jsonify({'error': 'Unable to fetch coordinates'}), 404
@@ -114,32 +113,31 @@ def weather():
         lon = coordinates['lon']
         print(f"Fetched coordinates for {city}: lat={lat}, lon={lon}")
 
-    # Fetch current weather using the city name (from reverse geocoding or input)
-    current_weather_response = requests.get(CURRENT_WEATHER_URL, params={
-        'q': city,
-        'appid': Config.OPENWEATHER_API_KEY,
-        'units': 'metric'
-    })
+    async with aiohttp.ClientSession() as session:
+        async with session.get(CURRENT_WEATHER_URL, params={
+            'lat': lat,
+            'lon': lon,
+            'appid': Config.OPENWEATHER_API_KEY,
+            'units': 'metric'
+        }) as current_weather_response:
 
-    if current_weather_response.status_code != 200:
-        print(f"Error fetching current weather: {current_weather_response.status_code}, {current_weather_response.text}")
-        return jsonify({'error': 'Unable to fetch current weather data'}), 500
-    current_weather = current_weather_response.json()
+            if current_weather_response.status != 200:
+                print(f"Error fetching current weather: {current_weather_response.status}, {await current_weather_response.text()}")
+                return jsonify({'error': 'Unable to fetch current weather data'}), 500
+            current_weather = await current_weather_response.json()
 
-    # Fetch forecast using the coordinates
-    forecast_response = requests.get(FORECAST_URL, params={
-        'lat': lat,
-        'lon': lon,
-        'appid': Config.OPENWEATHER_API_KEY,
-        'units': 'metric'
-    })
+        async with session.get(FORECAST_URL, params={
+            'lat': lat,
+            'lon': lon,
+            'appid': Config.OPENWEATHER_API_KEY,
+            'units': 'metric'
+        }) as forecast_response:
 
-    if forecast_response.status_code != 200:
-        print(f"Error fetching forecast: {forecast_response.status_code}, {forecast_response.text}")
-        return jsonify({'error': 'Unable to fetch forecast data'}), 500
-    forecast_data = forecast_response.json()
+            if forecast_response.status != 200:
+                print(f"Error fetching forecast: {forecast_response.status}, {await forecast_response.text()}")
+                return jsonify({'error': 'Unable to fetch forecast data'}), 500
+            forecast_data = await forecast_response.json()
 
-    # Extract and summarize the forecast data
     forecast_summary = []
     seen_dates = set()
     for forecast in forecast_data['list']:
@@ -155,12 +153,11 @@ def weather():
                 'precipitation': forecast.get('rain', {}).get('3h', 0) + forecast.get('snow', {}).get('3h', 0)
             })
 
-    # Determine the current season based on latitude and month
     season = determine_season(lat, lon)
     suggestions = get_suggestions(season)
 
     return jsonify({
-        'city': city,  # Send the city name in the response
+        'city': city,
         'current_weather': {
             'temperature': current_weather['main']['temp'],
             'description': current_weather['weather'][0]['description'],
