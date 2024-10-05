@@ -1,7 +1,7 @@
 .App {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh; /* Ensure the App takes full height */
 }
 
 .header {
@@ -20,19 +20,23 @@
 
 .container {
     flex: 1;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    min-height: 0; /* Add this to prevent the container from shrinking incorrectly */
 }
 
 .searchBar {
     display: flex;
     justify-content: center;
+    align-items: center; /* Center align items vertically */
+    gap: 10px; /* Add spacing between elements */
     margin-bottom: 20px;
 }
 
 .searchBar input {
     padding: 10px;
     font-size: 16px;
-    margin-right: 10px;
     width: 250px;
 }
 
@@ -47,6 +51,15 @@
 
 .searchBar button:hover {
     background-color: #0099dd;
+}
+
+.searchBar button:nth-child(3) {
+    background-color: #ffcc00; /* A contrasting color for the compare button */
+    color: #333;
+}
+
+.searchBar button:nth-child(3):hover {
+    background-color: #e6b800;
 }
 
 .viewSelection {
@@ -71,6 +84,12 @@
     font-size: 16px;
 }
 
+.actionButtons {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
 .locationWeatherCard {
     background-color: #f0f8ff; /* Light blue background for emphasis */
     border-radius: 10px;
@@ -80,6 +99,7 @@
     margin-bottom: 20px;
     display: inline-block;
     width: 100%;
+    cursor: pointer;
 }
 
 .locationWeatherCard h3 {
@@ -113,11 +133,13 @@
     margin-top: 5px;
 }
 
+
 .footer {
     background-color: #6495ED;
     color: #fff;
-    padding: 10px;
+    padding-top: 40px;
     text-align: center;
+    margin-top: 40px; /* Ensures the footer stays at the bottom */
 }
 
 .loading {

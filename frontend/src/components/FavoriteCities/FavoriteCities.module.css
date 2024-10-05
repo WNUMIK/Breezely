@@ -1,47 +1,68 @@
+.favoriteCitiesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid layout */
+    gap: 20px; /* Spacing between cards */
+    margin-top: 20px;
+}
+
 .favoriteCitiesContainer {
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    overflow: visible; /* Ensure no content is clipped */
+    height: auto; /* Make sure the container grows to fit the content */
 }
 
 .favoriteCityCard {
-    width: 100%;
-    max-width: 400px;
-    margin-bottom: 15px;
-    padding: 15px;
-    background-color: #fff8e1;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
-    transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition on hover */
-    cursor: pointer; /* Make it look clickable */
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    text-align: center;
 }
 
 .favoriteCityCard:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+    transform: scale(1.05);
+    background-color: #e3f2fd;
 }
 
 .removeButton {
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
     background: none;
     border: none;
     color: #ff6961;
+    cursor: pointer;
+    transform: translate(10%, -10%); /* Compensate for the hover scale effect */
 }
 
 .removeButton:hover {
     background-color: #ffffff;
 }
 
+
 .weatherDetails {
     text-align: center;
 }
 
-.favoriteCityCard h3 {
-    font-size: 18px;
-    margin-bottom: 8px;
+.slick-slider {
+    height: auto; /* Ensure the slider expands based on its content */
+}
+
+.slick-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto; /* Ensure slides also expand to fit content */
+}
+
+.slick-prev:before, .slick-next:before {
+    color: #007BFF;
+}
+
+.slick-dots li button:before {
+    color: #007BFF;
 }

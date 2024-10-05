@@ -12,6 +12,10 @@ function App() {
     const [locationWeather, setLocationWeather] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [citiesWeather, setCitiesWeather] = useState([]); // New state for cities comparison
+    const [favoriteCities, setFavoriteCities] = useState(
+        JSON.parse(localStorage.getItem('favoriteCities')) || []
+    );
 
     // Geolocation-based weather fetching logic
     useEffect(() => {
@@ -45,6 +49,48 @@ function App() {
             setLoading(false); // Stop loading if geolocation is unsupported
         }
     }, []);
+
+    // Add a city to the favorites list
+    const addFavoriteCity = async (cityName) => {
+        const MAX_FAVORITES = 6;
+
+        if (favoriteCities.some(city => city.name.toLowerCase() === cityName.toLowerCase())) {
+            alert(`${cityName} is already in your favorite cities.`);
+            return;
+        }
+
+        if (favoriteCities.length >= MAX_FAVORITES) {
+            alert(`You can only add up to ${MAX_FAVORITES} favorite cities.`);
+            return;
+        }
+
+        try {
+            const response = await axios.get('http://127.0.0.1:5000/api/weather', {
+                params: {city: cityName}
+            });
+            const weatherData = response.data.current_weather;
+
+            setFavoriteCities(prevFavorites => {
+                const updatedFavorites = [
+                    ...prevFavorites,
+                    {name: cityName, weatherData: weatherData} // Add new city
+                ];
+                localStorage.setItem('favoriteCities', JSON.stringify(updatedFavorites)); // Save to localStorage
+                return updatedFavorites;
+            });
+        } catch (err) {
+            console.error(`Failed to fetch weather data for ${cityName}.`, err);
+        }
+    };
+
+    // Remove a city from the favorites list
+    const removeFavoriteCity = (cityName) => {
+        setFavoriteCities(prevFavorites => {
+            const updatedFavorites = prevFavorites.filter(city => city.name !== cityName);
+            localStorage.setItem('favoriteCities', JSON.stringify(updatedFavorites)); // Update localStorage
+            return updatedFavorites;
+        });
+    };
 
     // Existing logic for view and city search
     const handleViewChange = (viewType) => {
@@ -92,6 +138,10 @@ function App() {
                             <button onClick={handleSearch} aria-label="Search for weather by city">
                                 Search
                             </button>
+                            <button onClick={() => handleViewChange('comparison')}
+                                    aria-label="Compare weather in multiple cities">
+                                Compare Weather in Multiple Cities
+                            </button>
                         </div>
                         {loading ? (
                             <div className={styles.loading}>
@@ -99,7 +149,6 @@ function App() {
                             </div>
                         ) : (
                             <>
-                                {/* Display geolocation-based weather if available */}
                                 {error && (
                                     <div>
                                         <p>{error}</p>
@@ -107,16 +156,17 @@ function App() {
                                     </div>
                                 )}
                                 {!error && locationWeather && (
-                                    <div className={styles.locationWeatherCard}>
+                                    <div
+                                        className={styles.locationWeatherCard}
+                                        onClick={() => handleCityClick(locationWeather.city)} // Click to go to detailed view
+                                    >
                                         <div className={styles.locationWeatherCardIcon}>
-                                            {/* Adjust icon size for more emphasis */}
                                             🌦️
                                         </div>
                                         <h3>
                                             Weather for your location
                                             <span className={styles.geoIcon}>📍</span>
                                         </h3>
-                                        {/* Emphasize the city name */}
                                         <p className={styles.cityName}>{locationWeather.city}</p>
                                         <p>Temperature: {locationWeather.current_weather.temperature}°C</p>
                                         <p>Description: {locationWeather.current_weather.description}</p>
@@ -124,25 +174,27 @@ function App() {
                                 )}
                             </>
                         )}
-                        {/* Existing functionality for views */}
-                        <div className={styles.viewSelection}>
-                            <h2>What would you like to do?</h2>
-                            <div className={styles.viewSelectionButtons}>
-                                <button onClick={() => handleViewChange('singleCity')}>Get Weather for One City</button>
-                                <button onClick={() => handleViewChange('comparison')}>Compare Weather in Multiple
-                                    Cities
-                                </button>
-                            </div>
-                        </div>
 
-                        <FeaturedCities onCityClick={handleCityClick}/>
-                        <FavoriteCities/>
+                        {/* Grid Layout for Featured and Favorite Cities */}
+                        <div className={styles.weatherGrids}>
+                            <FeaturedCities onCityClick={handleCityClick}/>
+                            <FavoriteCities
+                                favoriteCities={favoriteCities}
+                                onCityClick={handleCityClick}
+                                onRemoveCity={removeFavoriteCity}
+                            />
+                        </div>
                     </>
                 )}
 
                 {view === 'singleCity' && <SingleCityWeather city={city} onBack={() => setView(null)}/>}
-                {view === 'comparison' && <WeatherComparison onBack={() => setView(null)}/>}
-            </div>
+                {view === 'comparison' && (
+                    <WeatherComparison
+                        citiesWeather={citiesWeather} // Pass citiesWeather state
+                        setCitiesWeather={setCitiesWeather} // Pass setter function
+                        onBack={() => setView(null)} // Back to main view
+                    />
+                )}            </div>
 
             <footer className={styles.footer}>
                 <p>© 2024 Breezly | Contact Us | Privacy Policy</p>
