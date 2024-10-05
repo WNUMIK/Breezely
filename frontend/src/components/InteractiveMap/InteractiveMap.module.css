@@ -1,0 +1,24 @@
+/* Map should take full width and height without overflow */
+.map {
+  height: 500px;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+}
+
+.leaflet-container {
+  z-index: 0;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  z-index: 1000 !important; /* Ensure the popup has higher z-index to show correctly */
+}
+
+.leaflet-popup {
+  width: auto;
+  padding: 10px;
+  background-color: white;
+  font-size: 14px;
+  border-radius: 5px;
+}

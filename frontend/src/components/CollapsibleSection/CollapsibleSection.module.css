@@ -1,0 +1,28 @@
+.collapsible-section .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background-color: #DFF6FF;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.collapsible-section .content {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    max-height: 500px; /* Adjust according to your content */
+}
+
+.collapsible-section .header button {
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #007BFF; /* Or any theme color */
+}
+
+.collapsible-section .header button:hover {
+    text-decoration: underline;
+}

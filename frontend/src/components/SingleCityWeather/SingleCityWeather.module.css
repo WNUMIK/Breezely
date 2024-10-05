@@ -172,7 +172,7 @@
     }
 }
 
-/* Map should take full width */
+/* InteractiveMap should take full width */
 .weatherMap {
     grid-column: span 12; /* Make it span full width for consistency */
     background-color: #fff;

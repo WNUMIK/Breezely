@@ -21,7 +21,8 @@ async def reverse_geocode(lat, lon):
             if response.status == 200:
                 data = await response.json()
                 if data['results']:
-                    city = data['results'][0]['components'].get('city', 'Unknown City')
+                    components = data['results'][0]['components']
+                    city = components.get('city') or components.get('town') or components.get('village') or components.get('county') or 'Unknown City'
                     print(f"City found from reverse geocoding: {city}")
                     return city
     print(f"Error reverse geocoding: {response.status}, {await response.text()}")
@@ -113,6 +114,7 @@ async def weather():
         lon = coordinates['lon']
         print(f"Fetched coordinates for {city}: lat={lat}, lon={lon}")
 
+    # Fetch current weather and forecast
     async with aiohttp.ClientSession() as session:
         async with session.get(CURRENT_WEATHER_URL, params={
             'lat': lat,
@@ -138,6 +140,7 @@ async def weather():
                 return jsonify({'error': 'Unable to fetch forecast data'}), 500
             forecast_data = await forecast_response.json()
 
+    # Summarize forecast
     forecast_summary = []
     seen_dates = set()
     for forecast in forecast_data['list']:

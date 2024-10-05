@@ -6,16 +6,23 @@
 
 .header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #6495ED;
+    justify-content: space-between; /* Space between logo and weather data */
+    align-items: center; /* Vertically centers the content */
+    padding: 10px 20px;
+    background-color: #ADD8E6;
     color: white;
+    position: relative;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
 .logo img {
-    height: 80px;
-    margin-right: 10px;
+    max-height: 90px;
 }
 
 .container {
@@ -91,28 +98,32 @@
 }
 
 .locationWeatherCard {
-    background-color: #f0f8ff; /* Light blue background for emphasis */
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 20px;
-    display: inline-block;
-    width: 100%;
-    cursor: pointer;
+    background-color: #DFF6FF;
+    padding: 10px 15px; /* Reduce padding for a slimmer design */
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: auto; /* Adjust width for flexibility */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    font-size: 14px; /* Reduce font size for a compact look */
+    height: 60px; /* Control the overall height */
+    color: black;
 }
 
 .locationWeatherCard h3 {
-    display: flex;
-    align-items: center; /* Aligns icon and text */
-    justify-content: center; /* Centers the text and icon */
-    margin-bottom: 10px;
-    font-size: 1.4em;
+    margin: 0;
+    font-size: 18px; /* Slightly smaller for a banner feel */
 }
 
 .locationWeatherCard p {
-    font-size: 1.2em;
-    margin: 5px 0;
+    padding: 10px;
+    font-size: 14px; /* Smaller description text */
+}
+
+
+.locationWeatherCard:hover {
+    background-color: #33bbff;
 }
 
 .locationWeatherCardIcon {
@@ -135,7 +146,7 @@
 
 
 .footer {
-    background-color: #6495ED;
+    background-color: #ADD8E6;
     color: #fff;
     padding-top: 40px;
     text-align: center;
@@ -147,4 +158,35 @@
     text-align: center;
     padding: 20px;
     color: #555;
+}
+
+/* Add card style */
+.card {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    font-size: 1.2em;
+}
+.collapsibleHeader {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #e9ecef;
+    width: auto;
+    padding: 10px 15px;
 }

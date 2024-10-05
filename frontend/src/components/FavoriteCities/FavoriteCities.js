@@ -119,7 +119,6 @@ function FavoriteCities({onCityClick}) {
     // Conditionally render either the slider or a grid layout
     return (
         <div className={styles.favoriteCitiesContainer}>
-            <h3>Your Favorite Cities</h3>
             {favoriteCities.length === 0 ? (
                 <p>No favorite cities added yet.</p>
             ) : favoriteCities.length > 3 ? (  // Use slider when there are more than 3 cities

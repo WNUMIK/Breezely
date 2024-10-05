@@ -3,8 +3,9 @@ import SingleCityWeather from '../SingleCityWeather/SingleCityWeather';
 import WeatherComparison from '../WeatherComparison/WeatherComparison';
 import FeaturedCities from '../FeaturedCities/FeaturedCities';
 import FavoriteCities from '../FavoriteCities/FavoriteCities';
-import styles from './App.module.css'; // CSS Module for App-specific styles
-import axios from 'axios'; // For making API calls
+import InteractiveMap from "../InteractiveMap/InteractiveMap";
+import styles from './App.module.css';
+import axios from 'axios';
 
 function App() {
     const [view, setView] = useState(null);
@@ -12,10 +13,13 @@ function App() {
     const [locationWeather, setLocationWeather] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [citiesWeather, setCitiesWeather] = useState([]); // New state for cities comparison
+    const [mapWeather, setMapWeather] = useState(null);
+    const [citiesWeather, setCitiesWeather] = useState([]);
     const [favoriteCities, setFavoriteCities] = useState(
         JSON.parse(localStorage.getItem('favoriteCities')) || []
     );
+    const [isFeaturedOpen, setIsFeaturedOpen] = useState(false);
+    const [isFavoriteOpen, setIsFavoriteOpen] = useState(false);
 
     // Geolocation-based weather fetching logic
     useEffect(() => {
@@ -50,7 +54,6 @@ function App() {
         }
     }, []);
 
-    // Add a city to the favorites list
     const addFavoriteCity = async (cityName) => {
         const MAX_FAVORITES = 6;
 
@@ -92,18 +95,22 @@ function App() {
         });
     };
 
-    // Existing logic for view and city search
-    const handleViewChange = (viewType) => {
-        setView(viewType);
-    };
-
-    const goToHomePage = () => {
-        setView(null);
-    };
-
     const handleCityClick = (selectedCity) => {
         setCity(selectedCity);
         setView('singleCity');
+    };
+
+    const handleMapWeather = (weatherData) => {
+        setMapWeather(weatherData);
+        setView('mapWeather');
+    };
+
+    const toggleFeatured = () => {
+        setIsFeaturedOpen(!isFeaturedOpen);
+    };
+
+    const toggleFavorite = () => {
+        setIsFavoriteOpen(!isFavoriteOpen);
     };
 
     const handleSearch = () => {
@@ -111,17 +118,38 @@ function App() {
             setError("Please enter a valid city name.");
             return;
         }
-        setError(null); // Clear previous errors
+        setError(null);
         setView('singleCity');
     };
-
 
     return (
         <div className={styles.App}>
             <header className={styles.header}>
-                <div className={styles.logo} onClick={goToHomePage} style={{cursor: 'pointer'}}>
+                <div className={styles.logo} onClick={() => setView(null)} style={{cursor: 'pointer'}}>
                     <img src={`${process.env.PUBLIC_URL}/logo.png`} alt="Breezely Logo"/>
                 </div>
+                {loading ? (
+                            <div className={styles.loading}>
+                                <p>Loading weather data...</p>
+                            </div>
+                        ) : (
+                            <>
+                                {error && (
+                                    <div>
+                                        <p>{error}</p>
+                                        <p>Please use the search bar above to find weather by city.</p>
+                                    </div>
+                                )}
+                                {!error && locationWeather && (
+                                    <div className={styles.locationWeatherCard}
+                                         onClick={() => handleCityClick(locationWeather.city)}>
+                                        <h3>📍 {locationWeather.city}</h3>
+                                        <p>{locationWeather.current_weather.temperature}°C</p>
+                                        <p>{locationWeather.current_weather.description}</p>
+                                    </div>
+                                )}
+                            </>
+                        )}
             </header>
 
             <div className={styles.container}>
@@ -135,54 +163,37 @@ function App() {
                                 placeholder="Search weather by city"
                                 aria-label="Search weather by city"
                             />
-                            <button onClick={handleSearch} aria-label="Search for weather by city">
-                                Search
-                            </button>
-                            <button onClick={() => handleViewChange('comparison')}
+                            <button onClick={handleSearch} aria-label="Search for weather by city">Search</button>
+                            <button onClick={() => setView('comparison')}
                                     aria-label="Compare weather in multiple cities">
                                 Compare Weather in Multiple Cities
                             </button>
                         </div>
-                        {loading ? (
-                            <div className={styles.loading}>
-                                <p>Loading weather data...</p>
-                            </div>
-                        ) : (
-                            <>
-                                {error && (
-                                    <div>
-                                        <p>{error}</p>
-                                        <p>Please use the search bar above to find weather by city.</p>
-                                    </div>
-                                )}
-                                {!error && locationWeather && (
-                                    <div
-                                        className={styles.locationWeatherCard}
-                                        onClick={() => handleCityClick(locationWeather.city)} // Click to go to detailed view
-                                    >
-                                        <div className={styles.locationWeatherCardIcon}>
-                                            🌦️
-                                        </div>
-                                        <h3>
-                                            Weather for your location
-                                            <span className={styles.geoIcon}>📍</span>
-                                        </h3>
-                                        <p className={styles.cityName}>{locationWeather.city}</p>
-                                        <p>Temperature: {locationWeather.current_weather.temperature}°C</p>
-                                        <p>Description: {locationWeather.current_weather.description}</p>
-                                    </div>
-                                )}
-                            </>
-                        )}
+                        <div className={styles.card}>
+                            <h3>Click on the map to get weather details</h3>
+                            <InteractiveMap setWeatherData={handleMapWeather}/>
+                        </div>
 
-                        {/* Grid Layout for Featured and Favorite Cities */}
-                        <div className={styles.weatherGrids}>
-                            <FeaturedCities onCityClick={handleCityClick}/>
-                            <FavoriteCities
-                                favoriteCities={favoriteCities}
-                                onCityClick={handleCityClick}
-                                onRemoveCity={removeFavoriteCity}
-                            />
+                        {/* Collapsible for Featured Cities */}
+                        <div className={styles.card}>
+                            <div className={styles.collapsibleHeader} onClick={toggleFeatured}>
+                                {isFeaturedOpen ? 'Hide Featured Cities' : 'Show Featured Cities'}
+                            </div>
+                            {isFeaturedOpen && <FeaturedCities onCityClick={handleCityClick}/>}
+                        </div>
+
+                        {/* Collapsible for Favorite Cities */}
+                        <div className={styles.card}>
+                            <div className={styles.collapsibleHeader} onClick={toggleFavorite}>
+                                {isFavoriteOpen ? 'Hide Favorite Cities' : 'Show Favorite Cities'}
+                            </div>
+                            {isFavoriteOpen && (
+                                <FavoriteCities
+                                    favoriteCities={favoriteCities}
+                                    onCityClick={handleCityClick}
+                                    onRemoveCity={removeFavoriteCity}
+                                />
+                            )}
                         </div>
                     </>
                 )}
@@ -194,7 +205,8 @@ function App() {
                         setCitiesWeather={setCitiesWeather} // Pass setter function
                         onBack={() => setView(null)} // Back to main view
                     />
-                )}            </div>
+                )}
+            </div>
 
             <footer className={styles.footer}>
                 <p>© 2024 Breezly | Contact Us | Privacy Policy</p>
