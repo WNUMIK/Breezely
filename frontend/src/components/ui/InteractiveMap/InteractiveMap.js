@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import useMapClickWeather from '../../hooks/useMapClickWeather';  // Custom hook for map click and weather fetching
+import useMapClickWeather from '../../../hooks/useMapClickWeather';  // Custom hook for map click and weather fetching
 import styles from './InteractiveMap.module.css';
 
 // Child component that handles click events and updates markers
@@ -83,6 +83,7 @@ const InteractiveMap = ({showHeatmap}) => {
                     </Popup>
                 </Marker>
             )}
+
         </MapContainer>
     );
 };

@@ -6,7 +6,7 @@ import FavoriteCities from '../cities/FavoriteCities/FavoriteCities';
 import InteractiveMap from "../ui/InteractiveMap/InteractiveMap";
 import SearchBar from '../ui/SearchBar/SearchBar';
 import CollapsibleSection from '../ui/CollapsibleSection/CollapsibleSection';
-import { useWeatherData } from '../hooks/useWeatherData';
+import { useWeatherData } from '../../hooks/useWeatherData';
 import styles from './App.module.css';
 
 function App() {
