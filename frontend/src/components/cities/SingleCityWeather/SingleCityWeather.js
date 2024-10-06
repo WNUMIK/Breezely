@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import WeatherChart from '../WeatherChart/WeatherChart';
-import ForecastCard from '../ForecastCard/ForecastCard';
-import Lottie from 'react-lottie-player';
-import sunAnimation from '../animations/sun.json';
-import rainAnimation from '../animations/rain.json';
-import cloudAnimation from '../animations/cloud.json';
+import WeatherChart from '../../weather/WeatherChart/WeatherChart';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -29,7 +24,6 @@ function SingleCityWeather({ city, onBack }) {
     const [isFavorite, setIsFavorite] = useState(false);
     const [favoriteButtonText, setFavoriteButtonText] = useState('Save as Favorite');
     const [favoriteButtonColor, setFavoriteButtonColor] = useState('#eee8aa');
-
     const [season, setSeason] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [coordinates, setCoordinates] = useState({ lat: 35.6895, lon: 139.6917 }); // Default to Tokyo
@@ -104,12 +98,6 @@ function SingleCityWeather({ city, onBack }) {
             setFavoriteButtonText('Save as Favorite');
             setFavoriteButtonColor('#eee8aa');
         }
-    };
-
-    const getWeatherAnimation = (description) => {
-        if (description.includes('clear')) return sunAnimation;
-        if (description.includes('rain')) return rainAnimation;
-        if (description.includes('cloud')) return cloudAnimation;
     };
 
     const handleSearch = () => {

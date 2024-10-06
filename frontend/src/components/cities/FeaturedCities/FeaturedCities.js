@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Lottie from 'react-lottie-player';
-import sunAnimation from '../animations/sun.json';
-import rainAnimation from '../animations/rain.json';
-import cloudAnimation from '../animations/cloud.json';
+import sunAnimation from '../../animations/sun.json';
+import rainAnimation from '../../animations/rain.json';
+import cloudAnimation from '../../animations/cloud.json';
 import styles from './FeaturedCities.module.css'; // Import CSS module
 
 const FeaturedCities = ({ onCityClick }) => {

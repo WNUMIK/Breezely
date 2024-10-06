@@ -173,3 +173,16 @@ async def weather():
         'season': season,
         'suggestions': suggestions
     })
+
+@api.route('/api/geocode', methods=['GET'])
+async def geocode():
+    lat = request.args.get('lat')
+    lon = request.args.get('lon')
+
+    if not lat or not lon:
+        return jsonify({'error': 'Latitude and longitude are required'}), 400
+
+    city = await reverse_geocode(lat, lon)
+    if city:
+        return jsonify({'city': city})
+    return jsonify({'error': 'City not found'}), 404

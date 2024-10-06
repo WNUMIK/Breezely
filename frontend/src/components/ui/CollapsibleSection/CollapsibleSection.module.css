@@ -1,0 +1,19 @@
+.collapsibleSection {
+  margin-bottom: 15px;
+}
+
+.header {
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.content {
+  padding: 10px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+}

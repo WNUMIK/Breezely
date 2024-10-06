@@ -2,9 +2,9 @@ import React, {useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
 import Slider from "react-slick";
 import Lottie from 'react-lottie-player';
-import sunAnimation from '../animations/sun.json';
-import rainAnimation from '../animations/rain.json';
-import cloudAnimation from '../animations/cloud.json';
+import sunAnimation from '../../animations/sun.json';
+import rainAnimation from '../../animations/rain.json';
+import cloudAnimation from '../../animations/cloud.json';
 import styles from './FavoriteCities.module.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"; // Import slick CSS
