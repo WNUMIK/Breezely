@@ -7,74 +7,76 @@ import cloudAnimation from '../../animations/cloud.json';
 import styles from './FeaturedCities.module.css'; // Import CSS module
 
 const FeaturedCities = ({ onCityClick }) => {
-    const [featuredCitiesWeather, setFeaturedCitiesWeather] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const popularCities = ['New York', 'Tokyo', 'Paris', 'London', 'Berlin'];
+  const [featuredCitiesWeather, setFeaturedCitiesWeather] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const popularCities = ['New York', 'Tokyo', 'Paris', 'London', 'Berlin'];
 
-    useEffect(() => {
-        const fetchFeaturedCitiesWeather = async () => {
-            try {
-                const weatherPromises = popularCities.map((city) =>
-                    axios.get(`http://127.0.0.1:5000/api/weather`, { params: { city } })
-                );
-                const weatherData = await Promise.all(weatherPromises);
-                setFeaturedCitiesWeather(
-                    weatherData.map((response, index) => ({
-                        city: popularCities[index],
-                        ...response.data.current_weather,
-                    }))
-                );
-                setLoading(false);
-            } catch (err) {
-                setError("Error fetching weather data for featured cities");
-                setLoading(false);
-            }
-        };
-
-        fetchFeaturedCitiesWeather();
-    }, []);
-
-    const getWeatherAnimation = (description) => {
-        if (description.includes('clear')) {
-            return sunAnimation;
-        } else if (description.includes('rain')) {
-            return rainAnimation;
-        } else if (description.includes('cloud')) {
-            return cloudAnimation;
-        }
+  useEffect(() => {
+    const fetchFeaturedCitiesWeather = async () => {
+      try {
+        const weatherPromises = popularCities.map(city =>
+          axios.get(`http://127.0.0.1:5000/api/weather`, { params: { city } })
+        );
+        const weatherData = await Promise.all(weatherPromises);
+        setFeaturedCitiesWeather(
+          weatherData.map((response, index) => ({
+            city: popularCities[index],
+            ...response.data.current_weather,
+          }))
+        );
+        setLoading(false);
+      } catch (err) {
+        setError('Error fetching weather data for featured cities');
+        setLoading(false);
+      }
     };
 
-    if (loading) {
-        return <p>Loading featured cities...</p>;
-    }
+    fetchFeaturedCitiesWeather();
+  }, []);
 
-    if (error) {
-        return <p>{error}</p>;
+  const getWeatherAnimation = description => {
+    if (description.includes('clear')) {
+      return sunAnimation;
+    } else if (description.includes('rain')) {
+      return rainAnimation;
+    } else if (description.includes('cloud')) {
+      return cloudAnimation;
     }
+  };
 
-    return (
-        <div className={styles.featuredCities}>
-            {featuredCitiesWeather.map((weather, index) => (
-                <div
-                    className={styles.cityCard}
-                    key={index}
-                    onClick={() => onCityClick(weather.city)}
-                    style={{ cursor: 'pointer' }}
-                >
-                    <h4 className={styles.cityTitle}>{weather.city}</h4>
-                    <Lottie
-                        loop
-                        animationData={getWeatherAnimation(weather.description)}
-                        play
-                        style={{ width: 80, height: 80, margin: '0 auto' }}
-                    />
-                    <p className={styles.cityTemperature}>Temperature: {weather.temperature}°C</p>
-                    <p className={styles.cityDescription}>{weather.description}</p>
-                </div>
-            ))}
+  if (loading) {
+    return <p>Loading featured cities...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  return (
+    <div className={styles.featuredCities}>
+      {featuredCitiesWeather.map((weather, index) => (
+        <div
+          className={styles.cityCard}
+          key={index}
+          onClick={() => onCityClick(weather.city)}
+          style={{ cursor: 'pointer' }}
+        >
+          <h4 className={styles.cityTitle}>{weather.city}</h4>
+          <Lottie
+            loop
+            animationData={getWeatherAnimation(weather.description)}
+            play
+            style={{ width: 80, height: 80, margin: '0 auto' }}
+          />
+          <p className={styles.cityTemperature}>
+            Temperature: {weather.temperature}°C
+          </p>
+          <p className={styles.cityDescription}>{weather.description}</p>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default FeaturedCities;

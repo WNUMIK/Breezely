@@ -9,7 +9,9 @@ function WeatherComparison({ citiesWeather, setCitiesWeather, onBack }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const savedCitiesWeather = JSON.parse(localStorage.getItem('citiesWeather'));
+    const savedCitiesWeather = JSON.parse(
+      localStorage.getItem('citiesWeather')
+    );
     if (savedCitiesWeather) {
       setCitiesWeather(savedCitiesWeather);
     }
@@ -32,13 +34,16 @@ function WeatherComparison({ citiesWeather, setCitiesWeather, onBack }) {
         params: { city: city.trim() },
       });
 
-      if (citiesWeather.some((cw) => cw.city === response.data.city)) {
+      if (citiesWeather.some(cw => cw.city === response.data.city)) {
         setError('City is already in the comparison.');
         setLoading(false);
         return;
       }
 
-      setCitiesWeather((prevCitiesWeather) => [...prevCitiesWeather, response.data]);
+      setCitiesWeather(prevCitiesWeather => [
+        ...prevCitiesWeather,
+        response.data,
+      ]);
       setCity('');
     } catch (err) {
       setError('Failed to fetch weather data for the city.');
@@ -47,9 +52,9 @@ function WeatherComparison({ citiesWeather, setCitiesWeather, onBack }) {
     }
   };
 
-  const handleRemoveCity = (cityToRemove) => {
-    setCitiesWeather((prevCitiesWeather) =>
-      prevCitiesWeather.filter((cw) => cw.city !== cityToRemove)
+  const handleRemoveCity = cityToRemove => {
+    setCitiesWeather(prevCitiesWeather =>
+      prevCitiesWeather.filter(cw => cw.city !== cityToRemove)
     );
   };
 
@@ -57,13 +62,16 @@ function WeatherComparison({ citiesWeather, setCitiesWeather, onBack }) {
     if (citiesWeather.length < 2) return null;
 
     const highestTempCity = citiesWeather.reduce((prev, curr) =>
-      curr.current_weather.temperature > prev.current_weather.temperature ? curr : prev
+      curr.current_weather.temperature > prev.current_weather.temperature
+        ? curr
+        : prev
     );
 
     return (
       <div className={styles.comparisonSummary}>
         <p>
-          <strong>{highestTempCity.city}</strong> has the highest temperature: {highestTempCity.current_weather.temperature}°C
+          <strong>{highestTempCity.city}</strong> has the highest temperature:{' '}
+          {highestTempCity.current_weather.temperature}°C
         </p>
       </div>
     );
@@ -76,7 +84,7 @@ function WeatherComparison({ citiesWeather, setCitiesWeather, onBack }) {
         <input
           type="text"
           value={city}
-          onChange={(e) => setCity(e.target.value)}
+          onChange={e => setCity(e.target.value)}
           placeholder="Add city for comparison"
         />
         <button onClick={handleAddCity}>Add City</button>
@@ -100,7 +108,10 @@ function WeatherComparison({ citiesWeather, setCitiesWeather, onBack }) {
                   humidity={cityWeather.current_weather.humidity}
                   windSpeed={cityWeather.current_weather.wind_speed}
                 />
-                <button className={styles.removeButton} onClick={() => handleRemoveCity(cityWeather.city)}>
+                <button
+                  className={styles.removeButton}
+                  onClick={() => handleRemoveCity(cityWeather.city)}
+                >
                   Remove
                 </button>
               </div>
@@ -111,7 +122,10 @@ function WeatherComparison({ citiesWeather, setCitiesWeather, onBack }) {
         <p>No cities selected for comparison.</p>
       )}
       <div className={styles.clearBackButtons}>
-        <button onClick={() => setCitiesWeather([])} className={styles.clearButton}>
+        <button
+          onClick={() => setCitiesWeather([])}
+          className={styles.clearButton}
+        >
           Clear All
         </button>
         <button onClick={onBack} className={styles.backButton}>

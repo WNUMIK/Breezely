@@ -1,7 +1,13 @@
 import React from 'react';
 import styles from './CurrentWeatherCard.module.css';
 
-function CurrentWeatherCard({ city, temperature, description, humidity, windSpeed }) {
+function CurrentWeatherCard({
+  city,
+  temperature,
+  description,
+  humidity,
+  windSpeed,
+}) {
   return (
     <div className={styles.currentWeatherCard}>
       <h2 className={styles.cityName}>{city}</h2>

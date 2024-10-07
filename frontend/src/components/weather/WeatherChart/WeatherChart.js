@@ -1,9 +1,26 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
 // Register necessary Chart.js components
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function WeatherChart({ weather }) {
   const generateChartData = () => {
@@ -11,14 +28,14 @@ function WeatherChart({ weather }) {
       return { labels: [], datasets: [] }; // Safeguard for non-array data
     }
 
-    const labels = weather.forecast.map((day) =>
+    const labels = weather.forecast.map(day =>
       new Date(day.date).toLocaleDateString()
     );
 
-    const temperatureData = weather.forecast.map((day) => day.temperature);
-    const humidityData = weather.forecast.map((day) => day.humidity);
-    const precipitationData = weather.forecast.map((day) =>
-      day.precipitation !== undefined ? day.precipitation : 0  // Default to 0 if precipitation is missing
+    const temperatureData = weather.forecast.map(day => day.temperature);
+    const humidityData = weather.forecast.map(day => day.humidity);
+    const precipitationData = weather.forecast.map(
+      day => (day.precipitation !== undefined ? day.precipitation : 0) // Default to 0 if precipitation is missing
     );
 
     return {
@@ -79,7 +96,15 @@ function WeatherChart({ weather }) {
   return (
     <div className="row justify-content-center">
       <div className="col-md-8">
-        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px' }}> {/* Card for chart */}
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            padding: '20px',
+            borderRadius: '8px',
+          }}
+        >
+          {' '}
+          {/* Card for chart */}
           <Line data={generateChartData()} options={chartOptions} />
         </div>
       </div>
