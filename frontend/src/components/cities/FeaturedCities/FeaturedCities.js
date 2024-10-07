@@ -10,20 +10,21 @@ const FeaturedCities = ({ onCityClick }) => {
   const [featuredCitiesWeather, setFeaturedCitiesWeather] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hovered, setHovered] = useState(false);
   const popularCities = ['New York', 'Tokyo', 'Paris', 'London', 'Berlin'];
 
   useEffect(() => {
     const fetchFeaturedCitiesWeather = async () => {
       try {
         const weatherPromises = popularCities.map(city =>
-          axios.get(`http://127.0.0.1:5000/api/weather`, { params: { city } })
+          axios.get(`http://127.0.0.1:5000/api/weather`, { params: { city } }),
         );
         const weatherData = await Promise.all(weatherPromises);
         setFeaturedCitiesWeather(
           weatherData.map((response, index) => ({
             city: popularCities[index],
             ...response.data.current_weather,
-          }))
+          })),
         );
         setLoading(false);
       } catch (err) {
@@ -63,12 +64,20 @@ const FeaturedCities = ({ onCityClick }) => {
           style={{ cursor: 'pointer' }}
         >
           <h4 className={styles.cityTitle}>{weather.city}</h4>
-          <Lottie
-            loop
-            animationData={getWeatherAnimation(weather.description)}
-            play
-            style={{ width: 80, height: 80, margin: '0 auto' }}
-          />
+          <div
+            className={styles.animationContainer}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
+            <Lottie
+              loop
+              animationData={getWeatherAnimation(weather.description)}
+              play
+              speed={hovered ? 1.5 : 1} // Faster speed on hover
+              className={styles.lottieWrapper}
+            />
+          </div>
+
           <p className={styles.cityTemperature}>
             Temperature: {weather.temperature}°C
           </p>
