@@ -10,8 +10,6 @@ const FeaturedCities = ({ onCityClick }) => {
     const [featuredCitiesWeather, setFeaturedCitiesWeather] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [myDestinations, setMyDestinations] = useState(JSON.parse(localStorage.getItem('myDestinations')) || []);
-
     const popularCities = ['New York', 'Tokyo', 'Paris', 'London', 'Berlin'];
 
     useEffect(() => {
